@@ -7,8 +7,8 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { FilteredProducts } from "./pages/filterProduct/FilteredProducts";
-import Index from "./routes";
 import ErrorPage from "./routes/ErrorPage";
+import Index from "./routes/Index";
 
 const router = createBrowserRouter([
   {
@@ -34,14 +34,8 @@ const router = createBrowserRouter([
         element: <Cart />, //cart page
       },
       {
-        path: "filteredproducts",
-        element: <FilteredProducts />, //filteredproducts page
-        children: [
-          {
-            path: ":categoryPrefix",
-            element: <Category />,
-          },
-        ],
+        path: "categories/:categoryPrefix",
+        element: <FilteredProducts />, //component page
       },
     ],
   },

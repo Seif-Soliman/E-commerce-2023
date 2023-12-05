@@ -27,7 +27,7 @@ const ProductCard = ({ product }: props) => {
         <Button
           variant="primary"
           onClick={() => {
-            dispatch(addToCart(product.id));
+            dispatch(addToCart(product));
           }}
         >
           Add to Cart 🛒

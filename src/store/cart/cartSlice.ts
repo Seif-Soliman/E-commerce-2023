@@ -3,15 +3,19 @@ import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import { checkoutCart } from "./thunk";
 import { initialState } from "./initialState";
+import { ProductType } from "../product/productTypes";
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart(state, action: PayloadAction<number>) {
-      const id = action.payload;
-      if (state.items[id]) {
+    addToCart(state, action: PayloadAction<ProductType>) {
+      const id = action.payload.id;
+      const quantity = action.payload.max_quantity;
+      if (state.items[id] < quantity) {
         state.items[id]++;
+      } else if (state.items[id] >= quantity) {
+        state.items[id] = quantity;
       } else {
         state.items[id] = 1;
       }
