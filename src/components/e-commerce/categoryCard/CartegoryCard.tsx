@@ -1,4 +1,4 @@
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../../store/hooks";
 import { CategoryType } from "../../../store/category/categoryTypes";
 import { fetchProduct } from "../../../store/filteredProduct/filterProductSlice";
@@ -10,22 +10,21 @@ type props = {
 };
 
 const CartegoryCard = ({ category }: props) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const history = useHistory();
 
   function handleClick(cat_prefix: string) {
-    dispatch(fetchProduct(cat_prefix))
-      .unwrap()
-      .then(() => {
-        history.push({
-          pathname: "/filteredproducts",
-          state: { cat_prefix },
-        });
-      });
+    dispatch(fetchProduct(cat_prefix)).then(() => {
+      navigate("/filteredproducts", { state: { cat_prefix } });
+    });
   }
 
   return (
-    <Card style={{ width: "18rem" }} key={category.id}>
+    <Card
+      style={{ width: "18rem" }}
+      onClick={() => navigate(`${category.prefix}`)}
+      key={category.id}
+    >
       <Card.Img variant="top" src={category.img} />
       <Card.Body>
         <Card.Title>{category.title}</Card.Title>

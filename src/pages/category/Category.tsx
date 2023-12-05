@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
-// import { recievedCategory } from "../../store/category/categorySlice";
 import { fetchCategories } from "../../store/category/thunk";
 import styles from "./Category.module.css";
 import CartegoryCard from "../../components/e-commerce/categoryCard/CartegoryCard";
@@ -16,11 +15,6 @@ const Category = () => {
 
   useEffect(() => {
     dispatch(fetchCategories());
-    // .then((action) => {
-    //   if (fetchCategories.fulfilled.match(action)) {
-    //     dispatch(recievedCategory(action.payload));
-    //   }
-    // });
   }, [dispatch]);
 
   const renderData = (category: CategoryType) => {

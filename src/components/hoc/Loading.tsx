@@ -8,12 +8,6 @@ type LoadingProps = {
 };
 
 export function Loading({ children, loading, error }: LoadingProps) {
-  // const productFetchState = useAppSelector(
-  //   (state) => state.product.productFetchState
-  // );
-
-  // const errorMsg = useAppSelector((state) => state.product.errorMsg);
-
   if (loading === true) {
     return <div>Loading...</div>;
   }

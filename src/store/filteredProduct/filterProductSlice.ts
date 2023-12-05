@@ -16,6 +16,7 @@ const filterProductSlice = createSlice({
       console.log(state.products);
       console.log("state.products");
       console.log(action.payload);
+      state.errorMsg = null;
       state.products = action.payload;
     });
     builder.addCase(fetchProduct.rejected, (state, action) => {

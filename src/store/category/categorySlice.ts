@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchCategories } from "./thunk";
-// import type { CategoryType } from "./categoryTypes";
 import type { ProductType } from "../product/productTypes";
 import { fetchProducts } from "../product/thunk";
 import { initialState } from "./initialState";
@@ -10,16 +9,7 @@ import { initialState } from "./initialState";
 const categorySlice = createSlice({
   name: "category",
   initialState,
-  reducers: {
-    // recievedCategory(state, action: PayloadAction<CategoryType[]>) {
-    //   const categories = action.payload;
-    //   if (categories && Array.isArray(categories)) {
-    //     categories.forEach((category) => {
-    //       state.category[category.id] = category; //converting category array into object
-    //     });
-    //   }
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchCategories.pending, (state) => {
@@ -28,7 +18,6 @@ const categorySlice = createSlice({
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.loading = false;
         state.errorMsg = "";
-        // state.category = action.payload;
         if (action.payload) {
           action.payload.forEach((category) => {
             state.category[category.id] = category;
