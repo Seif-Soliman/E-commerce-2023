@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "../../../store/hooks";
 import { CategoryType } from "../../../store/category/categoryTypes";
 import { fetchProduct } from "../../../store/filteredProduct/filterProductSlice";
@@ -12,17 +12,20 @@ type props = {
 const CartegoryCard = ({ category }: props) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { categoryPrefix } = useParams();
 
   function handleClick(cat_prefix: string) {
     dispatch(fetchProduct(cat_prefix)).then(() => {
-      navigate("/filteredproducts", { state: { cat_prefix } });
+      navigate(`/filteredproducts/${cat_prefix}`, {
+        state: { cat_prefix },
+      });
     });
   }
 
   return (
     <Card
       style={{ width: "18rem" }}
-      onClick={() => navigate(`${category.prefix}`)}
+      onClick={() => navigate(`/categories/${categoryPrefix}`)}
       key={category.id}
     >
       <Card.Img variant="top" src={category.img} />

@@ -36,6 +36,12 @@ const router = createBrowserRouter([
       {
         path: "filteredproducts",
         element: <FilteredProducts />, //filteredproducts page
+        children: [
+          {
+            path: ":categoryPrefix",
+            element: <Category />,
+          },
+        ],
       },
     ],
   },
