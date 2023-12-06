@@ -1,30 +1,21 @@
-import React from "react";
-import classNames from "classnames";
-import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import {
-  getTotalPrice,
-  removeFromCart,
-  updateQuantity,
-} from "../../store/cart/cartSlice";
-import { checkoutCart } from "../../store/cart/thunk";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { getTotalPrice } from "../../store/cart/cartSlice";
 import styles from "./Cart.module.css";
+import CartCard from "../../components/e-commerce/cart/CartCard";
+import { CartState } from "../../store/cart/initialState";
+import { checkoutCart } from "../../store/cart/thunk";
+import classNames from "classnames";
+import GridList from "../../components/Layout/GridList/GridList";
 
 export function Cart() {
-  const dispatch = useAppDispatch();
-
   const products = useAppSelector((state) => state.product.products);
   const items = useAppSelector((state) => state.cart.items);
   const totalPrice = useAppSelector(getTotalPrice);
   const checkoutState = useAppSelector((state) => state.cart.checkoutState);
   const errorMsg = useAppSelector((state) => state.cart.errorMsg);
 
-  function onQuantityChanged(
-    e: React.ChangeEvent<HTMLSelectElement>,
-    id: string
-  ) {
-    const quantity = Number(e.target.value) || 0;
-    dispatch(updateQuantity({ quantity, id }));
-  }
+  const dispatch = useAppDispatch();
+  console.log(products);
 
   function onCheckout(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -38,9 +29,21 @@ export function Cart() {
     [styles.checkoutLoading]: checkoutState === "Loading",
   });
 
+  const renderData = (cart: CartState) => {
+    return (
+      <CartCard
+        items={cart.items}
+        products={products}
+        // checkoutState={checkoutState}
+        // errorMsg={errorMsg}
+        totalPrice={totalPrice}
+      />
+    );
+  };
+
   return (
     <main className="page">
-      <h1>Shopping Cart</h1>
+      <h1>Cart</h1>
       <table className={tableClasses}>
         <thead>
           <tr>
@@ -50,40 +53,12 @@ export function Cart() {
             <th>Remove</th>
           </tr>
         </thead>
-
-        <tbody>
-          {Object.entries(items).map(
-            (
-              [id, quantity] //obj.entry split entry into array of arrays
-            ) => (
-              <tr key={id}>
-                <td>{products[id].title}</td>
-                <td>
-                  <select
-                    className={styles.input}
-                    value={quantity}
-                    onChange={(e) => onQuantityChanged(e, id)}
-                  >
-                    {[...Array(products[id].max_quantity)].map((_, i) => (
-                      <option key={i} value={i + 1}>
-                        {i + 1}
-                      </option>
-                    ))}
-                  </select>
-                </td>
-                <td>${products[id].price}</td>
-                <td>
-                  <button
-                    aria-label={`Remove ${products[id].title} from Shopping Cart`}
-                    onClick={() => dispatch(removeFromCart(id))}
-                  >
-                    X
-                  </button>
-                </td>
-              </tr>
-            )
-          )}
-        </tbody>
+        <GridList
+          loading={false}
+          error={null}
+          data={Object.values(items)}
+          renderFunction={renderData}
+        />
         <tfoot>
           <tr>
             <td>Total</td>
