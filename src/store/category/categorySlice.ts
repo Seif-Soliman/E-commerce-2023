@@ -4,7 +4,6 @@ import { fetchCategories } from "./thunk";
 import type { ProductType } from "../product/productTypes";
 import { fetchProducts } from "../product/thunk";
 import { initialState } from "./initialState";
-// import { recievedProducts } from "../product/productSlice";
 
 const categorySlice = createSlice({
   name: "category",

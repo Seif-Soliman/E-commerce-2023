@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-import { checkout } from "../../app/api";
+import { checkout } from "./api";
 
 export const checkoutCart = createAsyncThunk<
   { success: boolean },
