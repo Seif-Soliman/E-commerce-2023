@@ -10,9 +10,10 @@ type props<T> = {
 };
 
 const GridList = <T,>({ renderFunction, data, loading, error }: props<T>) => {
-  const cloneElement = Object.values(data).map((record) => {
+  const cloneElement = Object.values(data).map((record, index) => {
     if (renderFunction) {
-      return renderFunction(record);
+      // Use the index as the key prop
+      return <div key={index}>{renderFunction(record)}</div>;
     }
   });
 

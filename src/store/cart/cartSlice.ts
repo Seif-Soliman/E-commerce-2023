@@ -74,8 +74,11 @@ export const getTotalPrice = createSelector(
   (items, product) => {
     let total = 0;
     for (let id in items) {
-      total += product[id].price * items[id];
+      if (product[id]) {
+        total += product[id].price * items[id];
+      }
     }
+
     return total.toFixed(2);
   }
 );

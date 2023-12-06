@@ -5,7 +5,7 @@ import CartCard from "../../components/e-commerce/cart/CartCard";
 import { CartState } from "../../store/cart/initialState";
 import { checkoutCart } from "../../store/cart/thunk";
 import classNames from "classnames";
-import GridList from "../../components/Layout/GridList/GridList";
+import CartGridList from "../../components/Layout/GridList/GridList";
 
 export function Cart() {
   const products = useAppSelector((state) => state.product.products);
@@ -16,6 +16,7 @@ export function Cart() {
 
   const dispatch = useAppDispatch();
   console.log(products);
+  console.log(items);
 
   function onCheckout(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -53,10 +54,10 @@ export function Cart() {
             <th>Remove</th>
           </tr>
         </thead>
-        <GridList
+        <CartGridList
           loading={false}
           error={null}
-          data={Object.values(items)}
+          data={Object.entries(items)}
           renderFunction={renderData}
         />
         <tfoot>
