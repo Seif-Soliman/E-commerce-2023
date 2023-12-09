@@ -1,18 +1,18 @@
-import { ReactNode } from "react";
-// import { useAppSelector } from "../../store/hooks";
+import { ReactElement } from "react";
+import LoadingAnimation from "./loadingAnitmation";
 
 type LoadingProps = {
-  children?: ReactNode;
+  children: ReactElement;
   loading: boolean;
-  error: string | null;
+  error?: string;
 };
 
 export function Loading({ children, loading, error }: LoadingProps) {
   if (loading === true) {
-    return <div>Loading...</div>;
+    return <LoadingAnimation />;
   }
 
-  if (error) {
+  if (error && error !== null) {
     return <div>Error...</div>;
   }
 

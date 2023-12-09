@@ -38,6 +38,8 @@ export function Cart() {
     [styles.checkoutLoading]: checkoutState === "Loading",
   });
 
+  console.log(items);
+
   return (
     <main className="page">
       <h1>Shopping Cart</h1>
@@ -54,7 +56,7 @@ export function Cart() {
         <tbody>
           {Object.entries(items).map(
             (
-              [id, quantity] //obj.entry split entry into array of arrays
+              [id, quantity]: [id: string, quantity: number] //obj.entry split entry into array of arrays
             ) => (
               <tr key={id}>
                 <td>{products[id].title}</td>
