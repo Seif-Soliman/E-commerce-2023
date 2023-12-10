@@ -29,32 +29,3 @@ const signinSlice = createSlice({
 });
 
 export default signinSlice.reducer;
-
-// import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import { signin } from "./thunk";
-// import { UserType } from "./UserType";
-// import { initialState } from "./initialState";
-
-// const signinSlice = createSlice({
-//   name: "users",
-//   initialState,
-//   reducers: {},
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(signin.pending, (state) => {
-//         state.loading = true;
-//       })
-//       .addCase(signin.fulfilled, (state, action: PayloadAction<UserType[]>) => {
-//         state.loading = false;
-//         state.errorMsg = "";
-//         state.users = action.payload;
-//       })
-//       .addCase(signin.rejected, (state, action) => {
-//         state.loading = false;
-//         console.log(state.errorMsg);
-//         state.errorMsg = action.error.message ?? "";
-//       });
-//   },
-// });
-
-// export default signinSlice.reducer;
