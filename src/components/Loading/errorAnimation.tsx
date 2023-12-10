@@ -1,8 +1,8 @@
 import Lottie from "lottie-react";
-import error from "../../assets/404ErrorPageAnimation.json";
+import error from "../../assets/ServerError.json";
 import { Container, Row, Col } from "react-bootstrap";
 
-const ErrorPage = () => {
+const ErrorAnimation = () => {
   return (
     <Container fluid className="h-100">
       <Row className="h-100 justify-content-center align-items-center">
@@ -14,4 +14,4 @@ const ErrorPage = () => {
   );
 };
 
-export default ErrorPage;
+export default ErrorAnimation;

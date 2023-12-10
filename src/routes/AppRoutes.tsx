@@ -6,7 +6,8 @@ import { Cart } from "../pages/cart/Cart";
 import { FilteredProducts } from "../pages/filterProduct/FilteredProducts";
 import ErrorPage from "../pages/errorPage/ErrorPage";
 import App from "../App";
-import Signup from "../components/authentication/Signup";
+import Signup from "../pages/authentication/Signup";
+import Signin from "../pages/authentication/Signin";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,11 @@ const router = createBrowserRouter([
       },
       {
         path: "signup",
-        element: <Signup />, //cart page
+        element: <Signup />, //Sign in page
+      },
+      {
+        path: "signin",
+        element: <Signin />, //Sign up page
       },
       {
         path: "categories/:categoryPrefix",

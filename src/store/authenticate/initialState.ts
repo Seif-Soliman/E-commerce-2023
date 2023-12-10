@@ -1,13 +1,17 @@
 import { UserType } from "./UserType";
 
-interface SignUpState {
-  users: { [id: string]: UserType };
+export interface UserState {
   loading: boolean;
-  errorMsg: string | null;
+  users: { [id: string]: UserType };
+  errorMsg: string;
+  isLoggedin: boolean;
+  currentUser: UserType | null;
 }
 
-export const initialState: SignUpState = {
+export const initialState: UserState = {
+  loading: false,
   users: {},
-  loading: true,
-  errorMsg: null,
+  errorMsg: "Process failed",
+  isLoggedin: true,
+  currentUser: null,
 };

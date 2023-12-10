@@ -1,10 +1,11 @@
 import { ReactElement } from "react";
 import LoadingAnimation from "./loadingAnitmation";
+import ErrorAnimation from "./errorAnimation";
 
 type LoadingProps = {
   children: ReactElement;
   loading: boolean;
-  error?: string;
+  error?: string | null;
 };
 
 export function Loading({ children, loading, error }: LoadingProps) {
@@ -13,7 +14,7 @@ export function Loading({ children, loading, error }: LoadingProps) {
   }
 
   if (error && error !== null) {
-    return <div>Error...</div>;
+    return <ErrorAnimation />;
   }
 
   return <>{children}</>;

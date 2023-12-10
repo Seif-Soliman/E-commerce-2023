@@ -1,6 +1,6 @@
 import { CheckoutState } from "./cartTypes";
 
-interface CartState {
+export interface CartState {
   items: { [productID: string]: number };
   checkoutState: CheckoutState;
   errorMsg: string;

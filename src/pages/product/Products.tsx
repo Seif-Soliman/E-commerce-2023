@@ -28,8 +28,8 @@ export function Products() {
 
   return (
     <main className="page">
-      <h1>All Products</h1>
       <ul className={styles.products}>
+        <h1>All Products</h1>
         <GridList
           data={Object.values(products)}
           renderFunction={renderData}

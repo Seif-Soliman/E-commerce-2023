@@ -1,23 +1,27 @@
 import { addToCart } from "../../../store/cart/cartSlice";
-import { useAppDispatch } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { ProductType } from "../../../store/product/productTypes";
 import ListGroup from "react-bootstrap/ListGroup";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { useState } from "react";
+import { updateQuantityFilterProduct } from "../../../store/filteredProduct/filterProductSlice";
 
 type props = {
   product: ProductType;
 };
 
 const ProductCard = ({ product }: props) => {
-  const [quantity, setQuantity] = useState(product.max_quantity);
-
   const dispatch = useAppDispatch();
+
+  const quantity = useAppSelector(
+    (state) => state.filterproduct.quantity[product.id] ?? product.max_quantity
+  );
 
   const handleClick = () => {
     dispatch(addToCart(product));
-    setQuantity(quantity - 1);
+    dispatch(
+      updateQuantityFilterProduct({ id: product.id, quantity: quantity - 1 })
+    );
   };
 
   return (
@@ -28,7 +32,7 @@ const ProductCard = ({ product }: props) => {
         <ListGroup className="list-group-flush">
           <ListGroup.Item>Category: {product.cat_prefix}</ListGroup.Item>
           <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
-          <ListGroup.Item>Quantity available: {quantity}</ListGroup.Item>
+          <ListGroup.Item>Available quantity: {quantity}</ListGroup.Item>
         </ListGroup>
         <Button
           variant="primary"

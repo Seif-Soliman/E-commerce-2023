@@ -1,4 +1,4 @@
-import { Loading } from "../../hoc/Loading";
+import { Loading } from "../../Loading/Loading";
 
 type props<T> = {
   loading: boolean;
@@ -6,7 +6,7 @@ type props<T> = {
   renderData?: JSX.Element[];
   children?: JSX.Element;
   data: T[];
-  renderFunction?: (record: T) => JSX.Element;
+  renderFunction?: (record: T) => JSX.Element | null;
 };
 
 const GridList = <T,>({ renderFunction, data, loading, error }: props<T>) => {

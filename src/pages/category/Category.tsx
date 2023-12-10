@@ -17,8 +17,15 @@ const Category = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
+  // const renderData = (category: CategoryType) => {
+  //   return <CartegoryCard key={category.id} category={category} />;
+  // };
+
   const renderData = (category: CategoryType) => {
-    return <CartegoryCard key={category.id} category={category} />;
+    if (category && category.id) {
+      return <CartegoryCard key={category.id} category={category} />;
+    }
+    return null;
   };
 
   return (
