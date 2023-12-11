@@ -8,6 +8,7 @@ import {
 } from "../../store/cart/cartSlice";
 import { checkoutCart } from "../../store/cart/thunk";
 import styles from "./Cart.module.css";
+import { updateQuantityFilterProduct } from "../../store/filteredProduct/filterProductSlice";
 
 export function Cart() {
   const dispatch = useAppDispatch();
@@ -17,6 +18,13 @@ export function Cart() {
   const totalPrice = useAppSelector(getTotalPrice);
   const checkoutState = useAppSelector((state) => state.cart.checkoutState);
   const errorMsg = useAppSelector((state) => state.cart.errorMsg);
+
+  const handleClick = (productId: string, quantity: number) => {
+    dispatch(removeFromCart(productId));
+    dispatch(
+      updateQuantityFilterProduct({ id: productId, quantity: quantity })
+    );
+  };
 
   function onQuantityChanged(
     e: React.ChangeEvent<HTMLSelectElement>,
@@ -37,8 +45,6 @@ export function Cart() {
     [styles.checkoutError]: checkoutState === "Error",
     [styles.checkoutLoading]: checkoutState === "Loading",
   });
-
-  console.log(items);
 
   return (
     <main className="page">
@@ -77,7 +83,7 @@ export function Cart() {
                 <td>
                   <button
                     aria-label={`Remove ${products[id].title} from Shopping Cart`}
-                    onClick={() => dispatch(removeFromCart(id))}
+                    onClick={() => handleClick(id, quantity)}
                   >
                     X
                   </button>

@@ -19,7 +19,7 @@ const cartSlice = createSlice({
       } else {
         state.items[id] = 1;
       }
-    }, //PayloadAction: pass type of payload expected
+    },
     removeFromCart(state, action: PayloadAction<string>) {
       delete state.items[action.payload];
     },

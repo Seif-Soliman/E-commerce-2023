@@ -1,18 +1,40 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { initialState } from "../product/initialState";
 import { fetchProduct } from "./thunk";
+import { ProductType } from "../product/productTypes";
 
+interface QuantityPayload {
+  id: string;
+  quantity: number;
+}
+
+interface FilterProductState {
+  // Other properties...
+  products: { [id: string]: ProductType };
+  loading: boolean;
+  errorMsg: string;
+  quantity: {
+    [id: string]: number;
+  };
+}
 const filterProductSlice = createSlice({
   name: "filterProduct",
-  initialState,
+  initialState: initialState as FilterProductState,
   reducers: {
     updateQuantityFilterProduct: (
       state,
-      action: PayloadAction<{ [id: string]: number }>
+      action: PayloadAction<QuantityPayload | { [id: string]: number }>
     ) => {
       const { id, quantity } = action.payload;
       state.quantity[id] = quantity;
     },
+    // updateQuantityFilterProduct: (
+    //   state,
+    //   action: PayloadAction<{ [id: string]: number }>
+    // ) => {
+    //   const { id, quantity } = action.payload;
+    //   state.quantity[id] = quantity;
+    // },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProduct.pending, (state) => {
