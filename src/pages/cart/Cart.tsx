@@ -19,19 +19,23 @@ export function Cart() {
   const checkoutState = useAppSelector((state) => state.cart.checkoutState);
   const errorMsg = useAppSelector((state) => state.cart.errorMsg);
 
-  const handleClick = (productId: string, quantity: number) => {
-    dispatch(removeFromCart(productId));
+  const handleClick = (productId: string, max_quantity: number) => {
+    dispatch(removeFromCart(parseInt(productId)));
     dispatch(
-      updateQuantityFilterProduct({ id: productId, quantity: quantity })
+      updateQuantityFilterProduct({
+        id: parseInt(productId),
+        quantity: max_quantity,
+      })
     );
   };
 
   function onQuantityChanged(
     e: React.ChangeEvent<HTMLSelectElement>,
-    id: string
+    id: number
   ) {
     const quantity = Number(e.target.value) || 0;
     dispatch(updateQuantity({ quantity, id }));
+    dispatch(updateQuantityFilterProduct({ id, quantity }));
   }
 
   function onCheckout(e: React.FormEvent<HTMLFormElement>) {
@@ -58,39 +62,44 @@ export function Cart() {
             <th>Remove</th>
           </tr>
         </thead>
-
         <tbody>
-          {Object.entries(items).map(
-            (
-              [id, quantity]: [id: string, quantity: number] //obj.entry split entry into array of arrays
-            ) => (
+          {Object.entries(items).map(([id, quantity]: [string, number]) => {
+            const productId = parseInt(id); // Parse the ID string to a number
+            const product = products.find((prod) => prod.id === productId); // Find the product by ID
+
+            return (
               <tr key={id}>
-                <td>{products[id].title}</td>
+                <td>{product?.title}</td>
                 <td>
                   <select
                     className={styles.input}
                     value={quantity}
-                    onChange={(e) => onQuantityChanged(e, id)}
+                    onChange={(e) => onQuantityChanged(e, productId)} // Convert the ID back to string for compatibility
                   >
-                    {[...Array(products[id].max_quantity)].map((_, i) => (
+                    {[...Array(product?.max_quantity || 0)].map((_, i) => (
                       <option key={i} value={i + 1}>
                         {i + 1}
                       </option>
                     ))}
                   </select>
                 </td>
-                <td>${products[id].price}</td>
+                <td>${product?.price}</td>
                 <td>
                   <button
-                    aria-label={`Remove ${products[id].title} from Shopping Cart`}
-                    onClick={() => handleClick(id, quantity)}
+                    aria-label={`Remove ${product?.title} from Shopping Cart`}
+                    onClick={() =>
+                      handleClick(
+                        productId.toString(),
+                        product?.max_quantity || 0
+                      )
+                    }
                   >
                     X
                   </button>
                 </td>
               </tr>
-            )
-          )}
+            );
+          })}
         </tbody>
         <tfoot>
           <tr>

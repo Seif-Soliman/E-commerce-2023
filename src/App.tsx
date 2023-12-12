@@ -9,7 +9,6 @@ function App() {
       <div className={styles.app}>
         <Outlet />
       </div>
-      {/* <h1>Seif Clothes Store</h1> */}
     </main>
   );
 }

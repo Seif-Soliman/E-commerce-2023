@@ -1,9 +1,9 @@
-import { ReactElement } from "react";
+import { ReactNode } from "react";
 import LoadingAnimation from "./loadingAnitmation";
 import ErrorAnimation from "./errorAnimation";
 
 type LoadingProps = {
-  children: ReactElement;
+  children: ReactNode;
   loading: boolean;
   error?: string | null;
 };

@@ -13,7 +13,7 @@ type SliderProps = {
 };
 
 export const Slider = ({ slides }: SliderProps) => {
-  const everyFifthSlide = slides.filter((_slide, index) => index % 4 === 0);
+  const everyFourthSlide = slides.filter((_slide, index) => index % 4 === 0);
 
   return (
     <Swiper
@@ -24,7 +24,7 @@ export const Slider = ({ slides }: SliderProps) => {
       pagination={{ clickable: true }}
       scrollbar={{ draggable: true }}
     >
-      {everyFifthSlide.map((slide: ProductType) => (
+      {everyFourthSlide.map((slide: ProductType) => (
         <SwiperSlide key={slide.id} className={style.img}>
           <img src={slide.img} alt={slide.title} />
         </SwiperSlide>

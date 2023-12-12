@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { fetchCategories } from "./thunk";
-import type { ProductType } from "../product/productTypes";
-import { fetchProducts } from "../product/thunk";
 import { initialState } from "./initialState";
 
 const categorySlice = createSlice({
@@ -23,12 +21,6 @@ const categorySlice = createSlice({
           });
         }
       })
-      .addCase(
-        fetchProducts.fulfilled,
-        (state, action: PayloadAction<ProductType[]>) => {
-          state.filteredProducts = action.payload;
-        }
-      )
       .addCase(fetchCategories.rejected, (state, action) => {
         state.loading = false;
         state.errorMsg = action.error.message ?? "";

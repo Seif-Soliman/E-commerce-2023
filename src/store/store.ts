@@ -5,12 +5,11 @@ import cartReducer from "./cart/cartSlice";
 import productReducer from "./product/productSlice";
 import filterproduct from "./filteredProduct/filterProductSlice";
 import categoryReducer from "./category/categorySlice";
-import signupReducer from "./authenticate/signupSlice";
-import signinReducer from "./authenticate/signinSlice";
-import signoutReducer from "./authenticate/signoutSlice";
+import auth from "./authenticate/authSlice";
 
 const persistConfig = {
   key: "root",
+  version: 1,
   storage,
 };
 
@@ -19,9 +18,7 @@ const rootReducer = combineReducers({
   product: productReducer,
   category: categoryReducer,
   filterproduct,
-  signupReducer,
-  signinReducer,
-  signoutReducer,
+  auth,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

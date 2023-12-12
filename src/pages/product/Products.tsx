@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import { recievedProducts } from "../../store/product/productSlice";
+import { receivedProducts } from "../../store/product/productSlice";
 import { fetchProducts } from "../../store/product/thunk";
 import styles from "./Products.module.css";
 import ProductCard from "../../components/e-commerce/productCard/ProductCard";
@@ -17,24 +17,26 @@ export function Products() {
   useEffect(() => {
     dispatch(fetchProducts()).then((action) => {
       if (fetchProducts.fulfilled.match(action)) {
-        dispatch(recievedProducts(action.payload));
+        dispatch(receivedProducts(action.payload));
       }
     });
   }, [dispatch]);
 
-  const renderData = (product: ProductType) => {
-    return <ProductCard key={product.id} product={product} />;
-  };
+  // const renderData = (product: ProductType) => {
+  //   return <ProductCard key={product.id} product={product} />;
+  // };
 
   return (
     <main className="page">
       <ul className={styles.products}>
         <h1>All Products</h1>
         <GridList
-          data={Object.values(products)}
-          renderFunction={renderData}
+          data={products}
           loading={productFetchState}
           error={errorMsg}
+          renderFunction={(product: ProductType, index: number) => (
+            <ProductCard key={`${product.id}_${index}`} product={product} />
+          )}
         />
       </ul>
     </main>

@@ -9,19 +9,10 @@ import Signout from "../../../pages/authentication/Signout";
 import { useAppSelector } from "../../../store/hooks";
 
 function NavBar() {
-  const user = useAppSelector((state) => state.signupReducer.users.user);
-  const userName = user ? user.userName : null;
+  const name = useAppSelector((state) => state.auth.currentUser?.user);
+  const loggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const userName = loggedIn ? name.userName : null;
   const greetingMessage = userName ? `Hello, ${userName}` : "Please Sign in";
-
-  const user2 = useAppSelector(
-    (state) => state.signinReducer.currentUser?.user.userName
-  );
-  const userName2 = user2 ? user2 : null;
-  const greetingMessage2 = userName2 ? `Hello, ${userName2}` : "Please Sign in";
-
-  // const user3 = useAppSelector((state) => state.signoutReducer.isLoggedin);
-  // const userName3 = user3 ? user2 : null;
-  // const greetingMessage3 = userName3 ? `Hello, ${userName3}` : "Please Sign in";
 
   return (
     <Navbar bg="dark" data-bs-theme="dark" sticky="top">
@@ -40,7 +31,7 @@ function NavBar() {
             </Link>
           </div>
           <div className="ms-right p-3" style={{ color: "white" }}>
-            {greetingMessage && greetingMessage2}
+            {greetingMessage}
           </div>
           <div className="ms-right p-3 d-flex">
             <SignupLink />

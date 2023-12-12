@@ -3,18 +3,21 @@ import { Loading } from "../../Loading/Loading";
 type props<T> = {
   loading: boolean;
   error: string | null;
-  renderData?: JSX.Element[];
-  children?: JSX.Element;
+  renderData?: React.ReactElement[];
+  children?: React.ReactElement;
   data: T[];
-  renderFunction?: (record: T) => JSX.Element | null;
+  renderFunction?: (record: T, index: number) => React.ReactElement | null;
 };
 
 const GridList = <T,>({ renderFunction, data, loading, error }: props<T>) => {
-  const cloneElement = Object.values(data).map((record) => {
-    if (renderFunction) {
-      return renderFunction(record);
-    }
-  });
+  const cloneElement = data
+    .map((record, index) => {
+      if (renderFunction) {
+        return renderFunction(record, index);
+      }
+      return null;
+    })
+    .filter((element) => element !== null);
 
   return (
     <Loading loading={loading} error={error}>

@@ -7,13 +7,8 @@ const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    recievedProducts(state, action: PayloadAction<ProductType[]>) {
-      const products = action.payload;
-      if (products && Array.isArray(products)) {
-        products.forEach((product) => {
-          state.products[product.id] = product; //converting product array into object
-        });
-      }
+    receivedProducts(state, action: PayloadAction<ProductType[]>) {
+      state.products = action.payload.filter(Boolean); // Assign the payload directly to products array
     },
   },
   extraReducers: function (builder) {
@@ -40,5 +35,5 @@ const productSlice = createSlice({
   },
 });
 
-export const { recievedProducts } = productSlice.actions;
+export const { receivedProducts } = productSlice.actions;
 export default productSlice.reducer;

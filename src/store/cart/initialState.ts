@@ -1,7 +1,7 @@
 import { CheckoutState } from "./cartTypes";
 
 export interface CartState {
-  items: { [productID: string]: number };
+  items: { [id: string]: number };
   checkoutState: CheckoutState;
   errorMsg: string;
 }

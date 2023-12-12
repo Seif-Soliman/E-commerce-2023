@@ -5,6 +5,10 @@ import { checkoutCart } from "./thunk";
 import { initialState } from "./initialState";
 import { ProductType } from "../product/productTypes";
 
+export const getQuantityById = (state: RootState, id: number) => {
+  return state.cart.items[id] ?? 0;
+};
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -20,12 +24,13 @@ const cartSlice = createSlice({
         state.items[id] = 1;
       }
     },
-    removeFromCart(state, action: PayloadAction<string>) {
-      delete state.items[action.payload];
+    removeFromCart(state, action: PayloadAction<number>) {
+      const id = action.payload.toString();
+      delete state.items[id];
     },
     updateQuantity(
       state,
-      action: PayloadAction<{ id: string; quantity: number }>
+      action: PayloadAction<{ id: number; quantity: number }> // Update id type to number
     ) {
       const { id, quantity } = action.payload;
       state.items[id] = quantity;
@@ -71,11 +76,39 @@ export const getMemoizedNumItems = createSelector(
 export const getTotalPrice = createSelector(
   (state: RootState) => state.cart.items,
   (state: RootState) => state.product.products,
-  (items, product) => {
+  (items, products) => {
     let total = 0;
     for (let id in items) {
-      total += product[id].price * items[id];
+      const productId = parseInt(id);
+      const quantity = items[productId];
+      const product = products.find((prod) => prod.id === productId);
+
+      if (product) {
+        total += product.price * quantity;
+      }
     }
     return total.toFixed(2);
   }
 );
+
+// addToCart(state, action: PayloadAction<ProductType>) {
+//   const id = action.payload.id;
+//   const quantity = action.payload.max_quantity;
+//   if (state.items[id] < quantity) {
+//     state.items[id]++;
+//   } else if (state.items[id] >= quantity) {
+//     state.items[id] = quantity;
+//   } else {
+//     state.items[id] = 1;
+//   }
+// },
+// removeFromCart(state, action: PayloadAction<string>) {
+//   delete state.items[action.payload];
+// },
+// updateQuantity(
+//   state,
+//   action: PayloadAction<{ id: string; quantity: number }>
+// ) {
+//   const { id, quantity } = action.payload;
+//   state.items[id] = quantity;
+// },

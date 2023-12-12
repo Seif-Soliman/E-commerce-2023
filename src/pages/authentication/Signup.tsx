@@ -3,7 +3,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useAppDispatch } from "../../store/hooks";
-import { signup } from "../../store/authenticate/thunk";
+// import { signup } from "../../store/authenticate/thunk";
+import { signUp } from "../../store/authNew/thunks";
 
 function Signup() {
   const dispatch = useAppDispatch();
@@ -17,7 +18,7 @@ function Signup() {
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    dispatch(signup(formData))
+    dispatch(signUp(formData))
       .then(() => {
         setFormData({
           email: "",
