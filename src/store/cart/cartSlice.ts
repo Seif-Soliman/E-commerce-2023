@@ -14,8 +14,15 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart(state, action: PayloadAction<ProductType>) {
-      const id = action.payload.id;
-      const quantity = action.payload.max_quantity;
+      const newItem = action.payload;
+      console.log(action.payload);
+      const id = newItem.id;
+      const existingItem = state.receivedItems.find((item) => item.id === id);
+      if (!existingItem) {
+        state.receivedItems.push(newItem);
+      }
+
+      const quantity = newItem.max_quantity;
       if (state.items[id] < quantity) {
         state.items[id]++;
       } else if (state.items[id] >= quantity) {
@@ -37,25 +44,26 @@ const cartSlice = createSlice({
     },
   },
   extraReducers: function (builder) {
-    builder.addCase(checkoutCart.pending, (state) => {
-      state.checkoutState = "Loading";
-    });
-    builder.addCase(
-      checkoutCart.fulfilled,
-      (state, action: PayloadAction<{ success: boolean }>) => {
-        const { success } = action.payload;
-        if (success) {
-          state.checkoutState = "Completed";
-          state.items = {};
-        } else {
-          state.checkoutState = "Error";
+    builder
+      .addCase(checkoutCart.pending, (state) => {
+        state.checkoutState = "Loading";
+      })
+      .addCase(
+        checkoutCart.fulfilled,
+        (state, action: PayloadAction<{ success: boolean }>) => {
+          const { success } = action.payload;
+          if (success) {
+            state.checkoutState = "Completed";
+            state.items = {};
+          } else {
+            state.checkoutState = "Error";
+          }
         }
-      }
-    );
-    builder.addCase(checkoutCart.rejected, (state, action) => {
-      state.checkoutState = "Error";
-      state.errorMsg = action.error.message ?? "";
-    });
+      )
+      .addCase(checkoutCart.rejected, (state, action) => {
+        state.checkoutState = "Error";
+        state.errorMsg = action.error.message ?? "";
+      });
   },
 });
 
@@ -90,25 +98,3 @@ export const getTotalPrice = createSelector(
     return total.toFixed(2);
   }
 );
-
-// addToCart(state, action: PayloadAction<ProductType>) {
-//   const id = action.payload.id;
-//   const quantity = action.payload.max_quantity;
-//   if (state.items[id] < quantity) {
-//     state.items[id]++;
-//   } else if (state.items[id] >= quantity) {
-//     state.items[id] = quantity;
-//   } else {
-//     state.items[id] = 1;
-//   }
-// },
-// removeFromCart(state, action: PayloadAction<string>) {
-//   delete state.items[action.payload];
-// },
-// updateQuantity(
-//   state,
-//   action: PayloadAction<{ id: string; quantity: number }>
-// ) {
-//   const { id, quantity } = action.payload;
-//   state.items[id] = quantity;
-// },

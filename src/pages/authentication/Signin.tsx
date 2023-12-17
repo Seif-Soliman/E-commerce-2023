@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useAppDispatch } from "../../store/hooks";
 // import { signIn } from "../../store/authenticate/thunk";
-import { signIn } from "../../store/authNew/thunks";
+import { signIn } from "../../store/authenticate/thunks";
 
 const Signin = () => {
   const dispatch = useAppDispatch();

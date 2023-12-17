@@ -4,16 +4,13 @@ import { CategoryType } from "../../../store/category/categoryTypes";
 import { fetchProduct } from "../../../store/filteredProduct/filterProductSlice";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { FC } from "react";
 
-type props = {
-  category: CategoryType;
-};
-
-const CartegoryCard = ({ category }: props) => {
+const CartegoryCard: FC<CategoryType> = ({ id, title, prefix, img }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  function handleClick(cat_prefix: string) {
+  function handleClickCategory(cat_prefix: string) {
     dispatch(fetchProduct(cat_prefix)).then(() => {
       navigate(`/categories/${cat_prefix}`, {
         state: { cat_prefix },
@@ -22,11 +19,11 @@ const CartegoryCard = ({ category }: props) => {
   }
 
   return (
-    <Card style={{ width: "18rem" }} key={category.id}>
-      <Card.Img variant="top" src={category.img} />
+    <Card style={{ width: "18rem" }} key={id}>
+      <Card.Img variant="top" src={img} />
       <Card.Body>
-        <Card.Title>{category.title}</Card.Title>
-        <Button variant="primary" onClick={() => handleClick(category.prefix)}>
+        <Card.Title>{title}</Card.Title>
+        <Button variant="primary" onClick={() => handleClickCategory(prefix)}>
           Available Products
         </Button>
       </Card.Body>

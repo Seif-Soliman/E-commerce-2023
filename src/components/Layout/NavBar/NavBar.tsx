@@ -29,6 +29,9 @@ function NavBar() {
             <Link to="/categories" className="p-3">
               Category
             </Link>
+            <Link to="/profile" className="p-3">
+              Profile
+            </Link>
           </div>
           <div className="ms-right p-3" style={{ color: "white" }}>
             {greetingMessage}

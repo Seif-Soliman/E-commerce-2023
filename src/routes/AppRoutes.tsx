@@ -8,6 +8,7 @@ import ErrorPage from "../pages/errorPage/ErrorPage";
 import App from "../App";
 import Signup from "../pages/authentication/Signup";
 import Signin from "../pages/authentication/Signin";
+import Profile from "../pages/profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "categories",
         element: <Category />, //component page
+      },
+      {
+        path: "profile",
+        element: <Profile />, //component page
       },
       {
         path: "cart",

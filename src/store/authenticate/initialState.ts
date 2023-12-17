@@ -1,25 +1,21 @@
 import { User } from "./userT";
 
-export interface userState {
+export interface UserState {
   isLoading: boolean;
   users: { [id: string]: User };
   errorMsg: boolean;
   isLoggedIn: boolean;
-  accessToken: null;
   currentUser: User | null;
   errorSignUp: string;
   errorSignIn: string;
-  correctSignIn: string | User[];
 }
 
-export const initialState: userState = {
+export const initialState: UserState = {
   isLoggedIn: false,
-  accessToken: null,
   isLoading: false,
   errorMsg: false,
   errorSignUp: "",
   errorSignIn: "",
-  correctSignIn: "",
   currentUser: null,
   users: {},
 };

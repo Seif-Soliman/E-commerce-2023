@@ -3,12 +3,17 @@ import classNames from "classnames";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import {
   getTotalPrice,
+  // insertOrder,
   removeFromCart,
   updateQuantity,
 } from "../../store/cart/cartSlice";
-import { checkoutCart } from "../../store/cart/thunk";
+import {
+  // checkoutCart,
+  itemInCart,
+} from "../../store/cart/thunk";
 import styles from "./Cart.module.css";
 import { updateQuantityFilterProduct } from "../../store/filteredProduct/filterProductSlice";
+import { updateOrder } from "../../store/order/orderSlice";
 
 export function Cart() {
   const dispatch = useAppDispatch();
@@ -18,8 +23,12 @@ export function Cart() {
   const totalPrice = useAppSelector(getTotalPrice);
   const checkoutState = useAppSelector((state) => state.cart.checkoutState);
   const errorMsg = useAppSelector((state) => state.cart.errorMsg);
+  const id = useAppSelector((state) => state.auth.currentUser?.user.id);
 
-  const handleClick = (productId: string, max_quantity: number) => {
+  const handleClickQuanatityRemove = (
+    productId: string,
+    max_quantity: number
+  ) => {
     dispatch(removeFromCart(parseInt(productId)));
     dispatch(
       updateQuantityFilterProduct({
@@ -28,6 +37,10 @@ export function Cart() {
       })
     );
   };
+
+  function handleClickID(id: string) {
+    dispatch(itemInCart(id));
+  }
 
   function onQuantityChanged(
     e: React.ChangeEvent<HTMLSelectElement>,
@@ -38,9 +51,21 @@ export function Cart() {
     dispatch(updateQuantityFilterProduct({ id, quantity }));
   }
 
+  const item = useAppSelector((state) => state.cart.receivedItems);
+
   function onCheckout(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(checkoutCart());
+
+    const cart = {
+      items,
+      checkoutState,
+      errorMsg,
+      receivedItems: item, // Populate this with relevant data
+    };
+
+    const userId = id; // Fetch userId from your state or props
+
+    dispatch(updateOrder({ cart, userId }));
   }
 
   //classname to join different conditional classes for css
@@ -69,7 +94,7 @@ export function Cart() {
 
             return (
               <tr key={id}>
-                <td>{product?.title}</td>
+                <td onClick={() => handleClickID(id)}>{product?.title}</td>
                 <td>
                   <select
                     className={styles.input}
@@ -88,7 +113,7 @@ export function Cart() {
                   <button
                     aria-label={`Remove ${product?.title} from Shopping Cart`}
                     onClick={() =>
-                      handleClick(
+                      handleClickQuanatityRemove(
                         productId.toString(),
                         product?.max_quantity || 0
                       )

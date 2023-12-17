@@ -1,5 +1,5 @@
 // import { signOut } from "../../store/authenticate/thunk";
-import { signOut } from "../../store/authNew/thunks";
+import { signOut } from "../../store/authenticate/thunks";
 import { useAppDispatch } from "../../store/hooks";
 import styles from "./Link.module.css";
 
