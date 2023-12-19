@@ -1,11 +1,10 @@
-import { addToCart } from "../../../store/cart/cartSlice";
+import { addToCart, getQuantityById } from "../../../store/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { ProductType } from "../../../store/product/productTypes";
 import ListGroup from "react-bootstrap/ListGroup";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { updateQuantityFilterProduct } from "../../../store/filteredProduct/filterProductSlice";
-import { getQuantityById } from "../../../store/cart/cartSlice";
 import { FC, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "../../../i18n";
@@ -19,7 +18,12 @@ const ProductCard: FC<ProductType> = ({
   max_quantity,
 }) => {
   useEffect(() => {
-    i18n.changeLanguage("en");
+    const currentLanguage = i18n.language;
+    if (currentLanguage === "ar") {
+      document.body.dir = "rtl";
+    } else {
+      document.body.dir = "ltr";
+    }
   }, []);
 
   const { t } = useTranslation();

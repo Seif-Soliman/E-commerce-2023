@@ -5,13 +5,21 @@ import {
   setNewEmail,
   toggleEditEmailMode,
 } from "../../store/authenticate/authSlice";
-import { updateEmailAndData } from "../../store/authenticate/thunks";
+import {
+  updateEmailAndData,
+  updateUserEmailInData,
+} from "../../store/authenticate/thunks";
 import i18n from "../../i18n";
 import { useTranslation } from "react-i18next";
 
 const UserInfo = () => {
   useEffect(() => {
-    i18n.changeLanguage("en");
+    const currentLanguage = i18n.language;
+    if (currentLanguage === "ar") {
+      document.body.dir = "rtl";
+    } else {
+      document.body.dir = "ltr";
+    }
   }, []);
 
   const { t } = useTranslation();
@@ -36,8 +44,13 @@ const UserInfo = () => {
     dispatch(setNewEmail(e.target.value));
   };
 
+  const id = userDetails.id;
+
   const handleEmailUpdate = () => {
     dispatch(updateEmailAndData(newEmail));
+    if (id) {
+      dispatch(updateUserEmailInData({ userId: id, email: newEmail }));
+    }
   };
 
   return (

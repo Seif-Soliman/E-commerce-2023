@@ -15,7 +15,12 @@ const Profile = () => {
   const greetingMessage = userName ? `Hello, ${userName}` : "Please Sign in";
 
   useEffect(() => {
-    i18n.changeLanguage("en");
+    const currentLanguage = i18n.language;
+    if (currentLanguage === "ar") {
+      document.body.dir = "rtl";
+    } else {
+      document.body.dir = "ltr";
+    }
   }, []);
 
   const { t } = useTranslation();
@@ -41,7 +46,7 @@ const Profile = () => {
               <Card.Body className="p-0">
                 <ListGroup className="rounded-3">{t("Main Menu")}</ListGroup>
                 <ListGroup className="rounded-3">
-                  <Link to="/profile/user-information" className="p-3">
+                  <Link to="/profile" className="p-3">
                     {t("User Information")}
                   </Link>
                 </ListGroup>

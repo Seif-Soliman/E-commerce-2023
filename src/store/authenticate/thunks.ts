@@ -12,7 +12,7 @@ interface UpdateEmailPayload {
 export const updateUserEmailInData = async ({
   userId,
   email,
-}: UpdateEmailPayload): Promise<User> => {
+}: UpdateEmailPayload) => {
   try {
     const updatedData = {
       email,
@@ -50,10 +50,12 @@ export const updateEmailAndData = (newEmail: string) => {
       dispatch(updateEmail(newEmail));
 
       const currentUser = getState().auth.currentUser;
-      if (currentUser && currentUser.id) {
-        await dispatch(
+      const userId = currentUser?.id;
+
+      if (userId) {
+        dispatch(
           updateUserEmailThunk({
-            userId: currentUser.id,
+            userId,
             email: newEmail,
           })
         );

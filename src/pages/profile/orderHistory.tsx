@@ -11,7 +11,12 @@ const OrderHistory = () => {
   const orders = useAppSelector((state) => state.order.orders);
 
   useEffect(() => {
-    i18n.changeLanguage("en");
+    const currentLanguage = i18n.language;
+    if (currentLanguage === "ar") {
+      document.body.dir = "rtl";
+    } else {
+      document.body.dir = "ltr";
+    }
   }, []);
 
   const { t } = useTranslation();
@@ -37,15 +42,24 @@ const OrderHistory = () => {
                   {Array.isArray(order.orders) ? (
                     order.orders.map((item, index) => (
                       <div key={index}>
-                        Quantity: {item.quantity}, Product:
-                        {item.product?.title}, Price: ${item.product?.price}
+                        <img src={item.img} />
+                        <p>Quantity: {item.quantity},</p>
+                        <p>
+                          Product:
+                          {item.product?.title}
+                        </p>
+                        <p>Price: ${item.product?.price}</p>
                       </div>
                     ))
                   ) : (
                     <div>
-                      Quantity: {order.orders?.quantity}, Product:
-                      {order.orders?.product?.title}, Price: $
-                      {order.orders?.product?.price}
+                      <img src={order.orders?.product?.img} />
+                      <p>Quantity: {order.orders?.quantity},</p>
+                      <p>
+                        Product:
+                        {order.orders?.product?.title},
+                      </p>
+                      <p>Price: ${order.orders?.product?.price}</p>
                     </div>
                   )}
                 </ListGroup.Item>

@@ -37,7 +37,12 @@ function Signup() {
   }
 
   useEffect(() => {
-    i18n.changeLanguage("en");
+    const currentLanguage = i18n.language;
+    if (currentLanguage === "ar") {
+      document.body.dir = "rtl";
+    } else {
+      document.body.dir = "ltr";
+    }
   }, []);
 
   const { t } = useTranslation();

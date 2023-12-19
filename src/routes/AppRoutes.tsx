@@ -31,10 +31,7 @@ const router = createBrowserRouter([
         path: "profile",
         element: <Profile />, //Profile page
         children: [
-          {
-            path: "user-information",
-            element: <UserInfo />,
-          },
+          { index: true, element: <UserInfo /> },
           {
             path: "order-history",
             element: <OrderHistory />,
