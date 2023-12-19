@@ -9,6 +9,8 @@ import App from "../App";
 import Signup from "../pages/authentication/Signup";
 import Signin from "../pages/authentication/Signin";
 import Profile from "../pages/profile/Profile";
+import UserInfo from "../pages/profile/userInfo";
+import OrderHistory from "../pages/profile/orderHistory";
 
 const router = createBrowserRouter([
   {
@@ -23,11 +25,21 @@ const router = createBrowserRouter([
       },
       {
         path: "categories",
-        element: <Category />, //component page
+        element: <Category />, //Category page
       },
       {
         path: "profile",
-        element: <Profile />, //component page
+        element: <Profile />, //Profile page
+        children: [
+          {
+            path: "user-information",
+            element: <UserInfo />,
+          },
+          {
+            path: "order-history",
+            element: <OrderHistory />,
+          },
+        ],
       },
       {
         path: "cart",

@@ -3,17 +3,14 @@ import classNames from "classnames";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import {
   getTotalPrice,
-  // insertOrder,
   removeFromCart,
   updateQuantity,
 } from "../../store/cart/cartSlice";
-import {
-  // checkoutCart,
-  itemInCart,
-} from "../../store/cart/thunk";
+import { checkoutCart, itemInCart } from "../../store/cart/thunk";
 import styles from "./Cart.module.css";
 import { updateQuantityFilterProduct } from "../../store/filteredProduct/filterProductSlice";
 import { updateOrder } from "../../store/order/orderSlice";
+import { CartState } from "../../store/cart/initialState";
 
 export function Cart() {
   const dispatch = useAppDispatch();
@@ -56,15 +53,15 @@ export function Cart() {
   function onCheckout(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const cart = {
+    const cart: CartState = {
       items,
       checkoutState,
       errorMsg,
-      receivedItems: item, // Populate this with relevant data
+      receivedItems: item,
     };
 
-    const userId = id; // Fetch userId from your state or props
-
+    const userId = id;
+    dispatch(checkoutCart());
     dispatch(updateOrder({ cart, userId }));
   }
 

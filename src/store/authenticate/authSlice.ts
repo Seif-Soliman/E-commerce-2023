@@ -10,6 +10,19 @@ const authSlice = createSlice({
     logInOut: (state) => {
       state.isLoggedIn = !state.isLoggedIn;
     },
+    toggleEditEmailMode: (state) => {
+      state.editEmailMode = !state.editEmailMode;
+    },
+
+    setNewEmail: (state, action: PayloadAction<string>) => {
+      state.newEmail = action.payload;
+    },
+
+    updateEmail: (state, action) => {
+      if (state.currentUser) state.currentUser.user.email = action.payload;
+      state.editEmailMode = false;
+      state.newEmail = "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -59,4 +72,6 @@ const authSlice = createSlice({
   },
 });
 
+export const { toggleEditEmailMode, setNewEmail, updateEmail } =
+  authSlice.actions;
 export default authSlice.reducer;

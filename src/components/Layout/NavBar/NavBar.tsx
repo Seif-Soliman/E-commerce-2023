@@ -7,6 +7,10 @@ import { SignupLink } from "../../../pages/authentication/SignupLink";
 import { SigninLink } from "../../../pages/authentication/SigninLink";
 import Signout from "../../../pages/authentication/Signout";
 import { useAppSelector } from "../../../store/hooks";
+import LanguageSwitch from "../../../locales/languageSwitch";
+import { useEffect } from "react";
+import i18n from "../../../i18n";
+import { useTranslation } from "react-i18next";
 
 function NavBar() {
   const name = useAppSelector((state) => state.auth.currentUser?.user);
@@ -14,6 +18,11 @@ function NavBar() {
   const userName = loggedIn ? name.userName : null;
   const greetingMessage = userName ? `Hello, ${userName}` : "Please Sign in";
 
+  useEffect(() => {
+    i18n.changeLanguage("en");
+  }, []);
+
+  const { t } = useTranslation();
   return (
     <Navbar bg="dark" data-bs-theme="dark" sticky="top">
       <Container>
@@ -21,16 +30,16 @@ function NavBar() {
         <Nav className="d-flex justify-content-between align-items-center  w-100">
           <div>
             <Link to="/" className="p-3">
-              Home
+              {t("Home")}
             </Link>
             <Link to="/products" className="p-3">
-              Products
+              {t("Products")}
             </Link>
             <Link to="/categories" className="p-3">
-              Category
+              {t("Category")}
             </Link>
             <Link to="/profile" className="p-3">
-              Profile
+              {t("Profile")}
             </Link>
           </div>
           <div className="ms-right p-3" style={{ color: "white" }}>
@@ -44,6 +53,7 @@ function NavBar() {
           <div className="ms-right p-3">
             <CartLink />
           </div>
+          <LanguageSwitch />
         </Nav>
       </Container>
     </Navbar>

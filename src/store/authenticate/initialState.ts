@@ -2,12 +2,13 @@ import { User } from "./userT";
 
 export interface UserState {
   isLoading: boolean;
-  users: { [id: string]: User };
   errorMsg: boolean;
   isLoggedIn: boolean;
   currentUser: User | null;
   errorSignUp: string;
   errorSignIn: string;
+  editEmailMode: boolean;
+  newEmail: string;
 }
 
 export const initialState: UserState = {
@@ -17,5 +18,6 @@ export const initialState: UserState = {
   errorSignUp: "",
   errorSignIn: "",
   currentUser: null,
-  users: {},
+  editEmailMode: false,
+  newEmail: "",
 };

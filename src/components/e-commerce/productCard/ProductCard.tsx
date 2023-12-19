@@ -6,7 +6,9 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { updateQuantityFilterProduct } from "../../../store/filteredProduct/filterProductSlice";
 import { getQuantityById } from "../../../store/cart/cartSlice";
-import { FC } from "react";
+import { FC, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "../../../i18n";
 
 const ProductCard: FC<ProductType> = ({
   id,
@@ -16,6 +18,12 @@ const ProductCard: FC<ProductType> = ({
   img,
   max_quantity,
 }) => {
+  useEffect(() => {
+    i18n.changeLanguage("en");
+  }, []);
+
+  const { t } = useTranslation();
+
   const dispatch = useAppDispatch();
   const product = { id, title, price, cat_prefix, img, max_quantity };
 
@@ -28,11 +36,12 @@ const ProductCard: FC<ProductType> = ({
     dispatch(
       updateQuantityFilterProduct({
         id: id,
-        // quantity: quantityFromCart - 1,
         quantity: max_quantity - 1,
       })
     );
   };
+
+  const translatedCategory = t(`Category_${cat_prefix}`);
 
   return (
     <Card style={{ width: "18rem" }} key={id}>
@@ -40,10 +49,14 @@ const ProductCard: FC<ProductType> = ({
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <ListGroup className="list-group-flush">
-          <ListGroup.Item>Category: {cat_prefix}</ListGroup.Item>
-          <ListGroup.Item>Price: ${price}</ListGroup.Item>
           <ListGroup.Item>
-            Available quantity: {max_quantity - quantityFromCart}
+            {t("Category")}: {translatedCategory}
+          </ListGroup.Item>
+          <ListGroup.Item>
+            {t("Price")}: ${price}
+          </ListGroup.Item>
+          <ListGroup.Item>
+            {t("Available quantity")}: {max_quantity - quantityFromCart}
           </ListGroup.Item>
         </ListGroup>
         <Button
@@ -51,7 +64,7 @@ const ProductCard: FC<ProductType> = ({
           onClick={handleClick}
           disabled={max_quantity - quantityFromCart === 0}
         >
-          Add to Cart 🛒
+          {t("Add to Cart")} 🛒
         </Button>
       </Card.Body>
     </Card>

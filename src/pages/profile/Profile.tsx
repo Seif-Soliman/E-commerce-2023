@@ -1,31 +1,28 @@
-import React from "react";
-import {
-  Container,
-  Row,
-  Col,
-  //   Breadcrumb,
-  Card,
-  Button,
-  ListGroup,
-  //   ProgressBar,
-} from "react-bootstrap";
+import { Container, Row, Col, Card, ListGroup } from "react-bootstrap";
+import { useAppSelector } from "../../store/hooks";
+import { useEffect } from "react";
+import i18n from "../../i18n";
+import { useTranslation } from "react-i18next";
+import { Link, Outlet } from "react-router-dom";
 
-interface ProfilePageProps {}
+const Profile = () => {
+  const currentUser = useAppSelector((state) => state.auth.currentUser);
 
-const Profile: React.FC<ProfilePageProps> = () => {
+  const userDetails = currentUser?.user;
+  const name = userDetails ? userDetails.userName : "";
+  const loggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const userName = loggedIn ? name : null;
+  const greetingMessage = userName ? `Hello, ${userName}` : "Please Sign in";
+
+  useEffect(() => {
+    i18n.changeLanguage("en");
+  }, []);
+
+  const { t } = useTranslation();
+
   return (
     <section style={{ minHeight: "100vh", backgroundColor: "#eee" }}>
       <Container className="py-5">
-        {/* <Row>
-          <Col>
-            <Breadcrumb className="bg-light rounded-3 p-3 mb-4">
-              <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-              <Breadcrumb.Item href="#">User</Breadcrumb.Item>
-              <Breadcrumb.Item active>User Profile</Breadcrumb.Item>
-            </Breadcrumb>
-          </Col>
-        </Row> */}
-
         <Row>
           <Col lg="4">
             <Card className="mb-4">
@@ -35,53 +32,30 @@ const Profile: React.FC<ProfilePageProps> = () => {
                   alt="avatar"
                   className="rounded-circle"
                   style={{ width: "150px" }}
-                  //   fluid
                 />
-                <p className="text-muted mb-1">Full Stack Developer</p>
-                <p className="text-muted mb-4">Bay Area, San Francisco, CA</p>
-                <div className="d-flex justify-content-center mb-2">
-                  <Button>Follow</Button>
-                  <Button variant="outline" className="ms-1">
-                    Message
-                  </Button>
-                </div>
+                <p className="text-muted mb-1">{greetingMessage}</p>
               </Card.Body>
             </Card>
 
             <Card className="mb-4 mb-lg-0">
               <Card.Body className="p-0">
-                <ListGroup
-                  // flush
-                  className="rounded-3"
-                >
-                  ListGroupItems here
+                <ListGroup className="rounded-3">{t("Main Menu")}</ListGroup>
+                <ListGroup className="rounded-3">
+                  <Link to="/profile/user-information" className="p-3">
+                    {t("User Information")}
+                  </Link>
+                </ListGroup>
+                <ListGroup className="rounded-3">
+                  <Link to="/profile/order-history" className="p-3">
+                    {t("Orders")}
+                  </Link>
                 </ListGroup>
               </Card.Body>
             </Card>
           </Col>
 
           <Col lg="8">
-            <Card className="mb-4">
-              <Card.Body>Profile information rows here</Card.Body>
-            </Card>
-
-            <Row>
-              <Col md="6">
-                <Card className="mb-4 mb-md-0">
-                  <Card.Body>
-                    Project Status cards and progress bars here
-                  </Card.Body>
-                </Card>
-              </Col>
-
-              <Col md="6">
-                <Card className="mb-4 mb-md-0">
-                  <Card.Body>
-                    Project Status cards and progress bars here
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
+            <Outlet />
           </Col>
         </Row>
       </Container>

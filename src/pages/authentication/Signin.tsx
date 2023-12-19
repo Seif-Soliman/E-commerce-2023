@@ -1,10 +1,11 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useAppDispatch } from "../../store/hooks";
-// import { signIn } from "../../store/authenticate/thunk";
 import { signIn } from "../../store/authenticate/thunks";
+import i18n from "../../i18n";
+import { useTranslation } from "react-i18next";
 
 const Signin = () => {
   const dispatch = useAppDispatch();
@@ -31,16 +32,22 @@ const Signin = () => {
     setFormData({ ...formData, [target.name]: target.value });
   }
 
+  useEffect(() => {
+    i18n.changeLanguage("en");
+  }, []);
+
+  const { t } = useTranslation();
+
   return (
     <Container>
       <Row className="justify-content-md-center">
         <Col xs={12} md={6}>
           <Form onSubmit={(e) => handleSubmit(e)}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Enter Email address</Form.Label>
+              <Form.Label>{t("Enter Email address")}</Form.Label>
               <Form.Control
                 type="email"
-                placeholder="Enter email"
+                placeholder={t("Enter email")}
                 value={formData.email}
                 name="email"
                 onChange={(e) => handleChange(e)}
@@ -48,17 +55,17 @@ const Signin = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Enter Password</Form.Label>
+              <Form.Label>{t("Enter Password")}</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Password"
+                placeholder={t("Enter Password")}
                 value={formData.password}
                 name="password"
                 onChange={(e) => handleChange(e)}
               />
             </Form.Group>
             <Button variant="primary" type="submit">
-              Sign in
+              {t("Sign In")}
             </Button>
           </Form>
         </Col>

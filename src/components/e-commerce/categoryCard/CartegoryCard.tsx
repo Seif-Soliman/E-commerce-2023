@@ -4,7 +4,9 @@ import { CategoryType } from "../../../store/category/categoryTypes";
 import { fetchProduct } from "../../../store/filteredProduct/filterProductSlice";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { FC } from "react";
+import { FC, useEffect } from "react";
+import i18n from "../../../i18n";
+import { useTranslation } from "react-i18next";
 
 const CartegoryCard: FC<CategoryType> = ({ id, title, prefix, img }) => {
   const navigate = useNavigate();
@@ -18,13 +20,19 @@ const CartegoryCard: FC<CategoryType> = ({ id, title, prefix, img }) => {
     });
   }
 
+  useEffect(() => {
+    i18n.changeLanguage("en");
+  }, []);
+
+  const { t } = useTranslation();
+  const translatedTitle = t(`Title_${title}`);
   return (
     <Card style={{ width: "18rem" }} key={id}>
       <Card.Img variant="top" src={img} />
       <Card.Body>
-        <Card.Title>{title}</Card.Title>
+        <Card.Title>{translatedTitle}</Card.Title>
         <Button variant="primary" onClick={() => handleClickCategory(prefix)}>
-          Available Products
+          {t("Available Products")}
         </Button>
       </Card.Body>
     </Card>

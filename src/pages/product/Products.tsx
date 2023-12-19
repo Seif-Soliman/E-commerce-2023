@@ -8,6 +8,8 @@ import GridList from "../../components/Layout/GridList/GridList";
 import { ProductType } from "../../store/product/productTypes";
 import { CategoryType } from "../../store/category/categoryTypes";
 import CartegoryCard from "../../components/e-commerce/categoryCard/CartegoryCard";
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
 
 export function Products() {
   const products = useAppSelector((state) => state.product.products);
@@ -24,14 +26,6 @@ export function Products() {
     });
   }, [dispatch]);
 
-  // const renderData = (product: ProductType) => {
-  //   return <ProductCard key={product.id} product={product} />;
-  // };
-
-  // const renderData = (product: ProductType, index: number) => (
-  //   <ProductCard key={`${product.id}_${index}`} {...product} />
-  // );
-
   const renderData = (record: CategoryType | ProductType, index: number) => {
     if ("prefix" in record) {
       return <CartegoryCard key={record.id} {...(record as CategoryType)} />;
@@ -44,11 +38,15 @@ export function Products() {
       );
     }
   };
+  useEffect(() => {
+    i18n.changeLanguage("en");
+  }, []);
 
+  const { t } = useTranslation();
   return (
     <main className="page">
       <ul className={styles.products}>
-        <h1>All Products</h1>
+        <h1>{t("All Products")}</h1>
         <GridList
           data={products}
           loading={productFetchState}

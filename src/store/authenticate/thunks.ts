@@ -1,6 +1,68 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { Dispatch, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { User } from "./userT";
+import { updateEmail } from "./authSlice";
+import { RootState } from "../store";
+
+interface UpdateEmailPayload {
+  userId: number;
+  email: string;
+}
+
+export const updateUserEmailInData = async ({
+  userId,
+  email,
+}: UpdateEmailPayload): Promise<User> => {
+  try {
+    const updatedData = {
+      email,
+    };
+
+    const response = await axios.patch<User>(
+      `http://localhost:3000/users/${userId}`,
+      updatedData
+    );
+
+    console.log("Response from updateUserEmailInData:", response);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating user email in data:", error);
+    throw new Error("Error updating user email in data");
+  }
+};
+
+export const updateUserEmailThunk = createAsyncThunk<User, UpdateEmailPayload>(
+  "auth/updateUserEmail",
+  async ({ userId, email }) => {
+    try {
+      const updatedUserData = await updateUserEmailInData({ userId, email });
+
+      return updatedUserData;
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
+);
+
+export const updateEmailAndData = (newEmail: string) => {
+  return async (dispatch: Dispatch<any>, getState: () => RootState) => {
+    try {
+      dispatch(updateEmail(newEmail));
+
+      const currentUser = getState().auth.currentUser;
+      if (currentUser && currentUser.id) {
+        await dispatch(
+          updateUserEmailThunk({
+            userId: currentUser.id,
+            email: newEmail,
+          })
+        );
+      }
+    } catch (error) {
+      console.error("Error updating email and data:", error);
+    }
+  };
+};
 
 export const signUp = createAsyncThunk(
   "user/signUp",
