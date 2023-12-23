@@ -1,7 +1,7 @@
 import { Container, Row, Col, Card, ListGroup } from "react-bootstrap";
 import { useAppSelector } from "../../store/hooks";
 import { useEffect } from "react";
-import i18n from "../../i18n";
+import i18n from "../../locales/i18n";
 import { useTranslation } from "react-i18next";
 import { Link, Outlet } from "react-router-dom";
 
@@ -16,7 +16,7 @@ const Profile = () => {
 
   useEffect(() => {
     const currentLanguage = i18n.language;
-    if (currentLanguage === "ar") {
+    if (currentLanguage === "sa") {
       document.body.dir = "rtl";
     } else {
       document.body.dir = "ltr";

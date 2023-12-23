@@ -1,5 +1,5 @@
-import React from "react";
-import classNames from "classnames";
+import React, { useEffect } from "react";
+// import classNames from "classnames";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import {
   getTotalPrice,
@@ -11,6 +11,9 @@ import styles from "./Cart.module.css";
 import { updateQuantityFilterProduct } from "../../store/filteredProduct/filterProductSlice";
 import { updateOrder } from "../../store/order/orderSlice";
 import { CartState } from "../../store/cart/initialState";
+import i18n from "../../locales/i18n";
+import { useTranslation } from "react-i18next";
+import { Table, Button, Form, Alert } from "react-bootstrap";
 
 export function Cart() {
   const dispatch = useAppDispatch();
@@ -29,7 +32,7 @@ export function Cart() {
     dispatch(removeFromCart(parseInt(productId)));
     dispatch(
       updateQuantityFilterProduct({
-        id: parseInt(productId),
+        id: productId,
         quantity: max_quantity,
       })
     );
@@ -45,7 +48,7 @@ export function Cart() {
   ) {
     const quantity = Number(e.target.value) || 0;
     dispatch(updateQuantity({ quantity, id }));
-    dispatch(updateQuantityFilterProduct({ id, quantity }));
+    dispatch(updateQuantityFilterProduct({ id: id.toString(), quantity })); // Corrected syntax
   }
 
   const item = useAppSelector((state) => state.cart.receivedItems);
@@ -66,22 +69,33 @@ export function Cart() {
   }
 
   //classname to join different conditional classes for css
-  const tableClasses = classNames({
-    [styles.table]: true,
-    [styles.checkoutError]: checkoutState === "Error",
-    [styles.checkoutLoading]: checkoutState === "Loading",
-  });
+  // const tableClasses = classNames({
+  //   [styles.table]: true,
+  //   [styles.checkoutError]: checkoutState === "Error",
+  //   [styles.checkoutLoading]: checkoutState === "Loading",
+  // });
+
+  useEffect(() => {
+    const currentLanguage = i18n.language;
+    if (currentLanguage === "sa") {
+      document.body.dir = "rtl";
+    } else {
+      document.body.dir = "ltr";
+    }
+  }, []);
+
+  const { t } = useTranslation();
 
   return (
     <main className="page">
-      <h1>Shopping Cart</h1>
-      <table className={tableClasses}>
+      <h1>{t("Shopping Cart")}</h1>
+      <Table striped bordered responsive>
         <thead>
           <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th>Remove</th>
+            <th>{t("Product")}</th>
+            <th>{t("Quantity")}</th>
+            <th>{t("Total")}</th>
+            <th>{t("Remove")}</th>
           </tr>
         </thead>
         <tbody>
@@ -125,21 +139,21 @@ export function Cart() {
         </tbody>
         <tfoot>
           <tr>
-            <td>Total</td>
+            <td>{t("Total")}</td>
             <td></td>
             <td className={styles.total}>${totalPrice}</td>
             <td></td>
           </tr>
         </tfoot>
-      </table>
-      <form onSubmit={onCheckout}>
+      </Table>
+      <Form onSubmit={onCheckout} className="mt-4">
         {checkoutState === "Error" && errorMsg ? (
-          <p className={styles.errorBox}>{errorMsg}</p>
+          <Alert variant="danger">{errorMsg}</Alert>
         ) : null}
-        <button className={styles.button} type="submit">
-          Checkout
-        </button>
-      </form>
+        <Button variant="primary" type="submit">
+          {t("Checkout")}
+        </Button>
+      </Form>
     </main>
   );
 }

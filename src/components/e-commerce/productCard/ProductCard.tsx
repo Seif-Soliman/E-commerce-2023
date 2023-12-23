@@ -1,15 +1,16 @@
+import { useTranslation } from "react-i18next";
 import { addToCart, getQuantityById } from "../../../store/cart/cartSlice";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { ProductType } from "../../../store/product/productTypes";
-import ListGroup from "react-bootstrap/ListGroup";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import ListGroup from "react-bootstrap/ListGroup";
+import Col from "react-bootstrap/Col";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { updateQuantityFilterProduct } from "../../../store/filteredProduct/filterProductSlice";
-import { FC, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import i18n from "../../../i18n";
 
-const ProductCard: FC<ProductType> = ({
+interface Props extends ProductType {}
+
+const ProductCard: React.FC<Props> = ({
   id,
   title,
   price,
@@ -17,61 +18,53 @@ const ProductCard: FC<ProductType> = ({
   img,
   max_quantity,
 }) => {
-  useEffect(() => {
-    const currentLanguage = i18n.language;
-    if (currentLanguage === "ar") {
-      document.body.dir = "rtl";
-    } else {
-      document.body.dir = "ltr";
-    }
-  }, []);
-
-  const { t } = useTranslation();
-
   const dispatch = useAppDispatch();
-  const product = { id, title, price, cat_prefix, img, max_quantity };
+  const { t } = useTranslation();
 
   const quantityFromCart = useAppSelector((state) =>
     getQuantityById(state, id)
   );
 
-  const handleClick = () => {
-    dispatch(addToCart(product));
+  const handleAddToCart = () => {
+    dispatch(addToCart({ id, title, price, cat_prefix, img, max_quantity }));
     dispatch(
       updateQuantityFilterProduct({
-        id: id,
-        quantity: max_quantity - 1,
+        id: id.toString(),
+        quantity: max_quantity - quantityFromCart,
       })
     );
   };
 
-  const translatedCategory = t(`Category_${cat_prefix}`);
+  const translatedCategory: string = t(`Category_${cat_prefix}`);
+  const productName: string = t(`ProductName_${title}`);
 
   return (
-    <Card style={{ width: "18rem" }} key={id}>
-      <Card.Img variant="top" src={img} />
-      <Card.Body>
-        <Card.Title>{title}</Card.Title>
-        <ListGroup className="list-group-flush">
-          <ListGroup.Item>
-            {t("Category")}: {translatedCategory}
-          </ListGroup.Item>
-          <ListGroup.Item>
-            {t("Price")}: ${price}
-          </ListGroup.Item>
-          <ListGroup.Item>
-            {t("Available quantity")}: {max_quantity - quantityFromCart}
-          </ListGroup.Item>
-        </ListGroup>
-        <Button
-          variant="primary"
-          onClick={handleClick}
-          disabled={max_quantity - quantityFromCart === 0}
-        >
-          {t("Add to Cart")} 🛒
-        </Button>
-      </Card.Body>
-    </Card>
+    <Col xs={12} sm={6} md={4} lg={3} className="mb-4" key={id}>
+      <Card style={{ minWidth: "14rem" }}>
+        <Card.Img variant="top" src={img} />
+        <Card.Body>
+          <Card.Title>{productName}</Card.Title>
+          <ListGroup className="list-group-flush">
+            <ListGroup.Item>
+              {t("Category")}: {translatedCategory}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              {t("Price")}: ${price}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              {t("Available quantity")}: {max_quantity - quantityFromCart}
+            </ListGroup.Item>
+          </ListGroup>
+          <Button
+            variant="primary"
+            onClick={handleAddToCart}
+            disabled={max_quantity - quantityFromCart === 0}
+          >
+            {t("Add to Cart")} 🛒
+          </Button>
+        </Card.Body>
+      </Card>
+    </Col>
   );
 };
 

@@ -1,44 +1,62 @@
-import { useState, FormEvent, ChangeEvent, useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import { useEffect } from "react";
+// import {
+//   // Container,
+//   Row, Col } from "react-bootstrap";
+// import Button from "react-bootstrap/Button";
+// import Form from "react-bootstrap/Form";
 import { useAppDispatch } from "../../store/hooks";
 import { signUp } from "../../store/authenticate/thunks";
-import i18n from "../../i18n";
+import i18n from "../../locales/i18n";
 import { useTranslation } from "react-i18next";
+import {
+  Formik,
+  Form as FormikForm,
+  // Field,
+  // ErrorMessage,
+  FormikHelpers,
+} from "formik";
+import * as Yup from "yup";
+import {
+  TextField,
+  Button,
+  // Typography,
+  Container,
+  Grid,
+} from "@mui/material";
 
 function Signup() {
-  const dispatch = useAppDispatch();
-
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    userName: "",
-    mobile: "",
+  const SignupSchema = Yup.object().shape({
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+    userName: Yup.string().required("Name is required"),
+    mobile: Yup.string().required("Mobile is required"),
   });
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    dispatch(signUp(formData))
+  const dispatch = useAppDispatch();
+
+  type FormValues = {
+    email: string;
+    password: string;
+    userName: string;
+    mobile: string;
+  };
+
+  const handleSubmit = (
+    values: FormValues,
+    { resetForm }: FormikHelpers<FormValues>
+  ) => {
+    dispatch(signUp(values))
       .then(() => {
-        setFormData({
-          email: "",
-          password: "",
-          userName: "",
-          mobile: "",
-        });
+        resetForm();
       })
       .catch((error) => console.error(error));
-  }
-
-  function handleChange(e: ChangeEvent) {
-    const target = e.target as HTMLInputElement;
-    setFormData({ ...formData, [target.name]: target.value });
-  }
+  };
 
   useEffect(() => {
     const currentLanguage = i18n.language;
-    if (currentLanguage === "ar") {
+    if (currentLanguage === "sa") {
       document.body.dir = "rtl";
     } else {
       document.body.dir = "ltr";
@@ -49,62 +67,74 @@ function Signup() {
 
   return (
     <Container>
-      <Row className="justify-content-md-center">
-        <Col xs={12} md={6}>
-          <Form onSubmit={(e) => handleSubmit(e)}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>{t("Email address")}</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder={t("Enter email")}
-                value={formData.email}
-                name="email"
-                onChange={(e) => handleChange(e)}
-              />
-              <Form.Text className="text-muted">
-                {t("We'll never share your email with anyone else.")}
-              </Form.Text>
-            </Form.Group>
+      <Grid container justifyContent="center">
+        <Grid item xs={12} md={6}>
+          <Formik
+            initialValues={{
+              email: "",
+              password: "",
+              userName: "",
+              mobile: "",
+            }}
+            validationSchema={SignupSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ errors, touched }) => (
+              <FormikForm>
+                <TextField
+                  fullWidth
+                  label={t("Email address")}
+                  type="email"
+                  name="email"
+                  placeholder={t("Enter email")}
+                  error={!!errors.email && touched.email}
+                  helperText={errors.email && touched.email ? errors.email : ""}
+                />
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>{t("Password")}</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder={t("Enter Password")}
-                value={formData.password}
-                name="password"
-                onChange={(e) => handleChange(e)}
-              />
-            </Form.Group>
+                <TextField
+                  fullWidth
+                  label={t("Password")}
+                  type="password"
+                  name="password"
+                  placeholder={t("Enter Password")}
+                  error={!!errors.password && touched.password}
+                  helperText={
+                    errors.password && touched.password ? errors.password : ""
+                  }
+                />
 
-            <Form.Group className="mb-3" controlId="formBasicName">
-              <Form.Label>{t("Name")}</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder={t("Enter name")}
-                value={formData.userName}
-                name="userName"
-                onChange={(e) => handleChange(e)}
-              />
-            </Form.Group>
+                <TextField
+                  fullWidth
+                  label={t("Name")}
+                  type="text"
+                  name="userName"
+                  placeholder={t("Enter name")}
+                  error={!!errors.userName && touched.userName}
+                  helperText={
+                    errors.userName && touched.userName ? errors.userName : ""
+                  }
+                />
 
-            <Form.Group className="mb-3" controlId="formBasicMobile">
-              <Form.Label>{t("Mobile")}</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder={t("Enter mobile")}
-                value={formData.mobile}
-                name="mobile"
-                onChange={(e) => handleChange(e)}
-              />
-            </Form.Group>
+                <TextField
+                  fullWidth
+                  label={t("Mobile")}
+                  type="text"
+                  name="mobile"
+                  placeholder={t("Enter mobile")}
+                  error={!!errors.mobile && touched.mobile}
+                  helperText={
+                    errors.mobile && touched.mobile ? errors.mobile : ""
+                  }
+                />
 
-            <Button variant="primary" type="submit">
-              {t("Sign Up")}
-            </Button>
-          </Form>
-        </Col>
-      </Row>
+                <Button variant="contained" type="submit">
+                  {t("Sign Up")}
+                </Button>
+              </FormikForm>
+            )}
+          </Formik>
+        </Grid>
+      </Grid>
     </Container>
   );
 }

@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useAppDispatch } from "../../store/hooks";
 import { signIn } from "../../store/authenticate/thunks";
-import i18n from "../../i18n";
+import i18n from "../../locales/i18n";
 import { useTranslation } from "react-i18next";
 
 const Signin = () => {
@@ -34,7 +34,7 @@ const Signin = () => {
 
   useEffect(() => {
     const currentLanguage = i18n.language;
-    if (currentLanguage === "ar") {
+    if (currentLanguage === "sa") {
       document.body.dir = "rtl";
     } else {
       document.body.dir = "ltr";

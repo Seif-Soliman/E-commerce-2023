@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { signOut } from "../../store/authenticate/thunks";
 import { useAppDispatch } from "../../store/hooks";
 import styles from "./Link.module.css";
-import i18n from "../../i18n";
+import i18n from "../../locales/i18n";
 import { useTranslation } from "react-i18next";
 
 const Signout = () => {
@@ -14,7 +14,7 @@ const Signout = () => {
 
   useEffect(() => {
     const currentLanguage = i18n.language;
-    if (currentLanguage === "ar") {
+    if (currentLanguage === "sa") {
       document.body.dir = "rtl";
     } else {
       document.body.dir = "ltr";

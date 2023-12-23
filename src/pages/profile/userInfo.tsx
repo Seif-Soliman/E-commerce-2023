@@ -9,13 +9,13 @@ import {
   updateEmailAndData,
   updateUserEmailInData,
 } from "../../store/authenticate/thunks";
-import i18n from "../../i18n";
+import i18n from "../../locales/i18n";
 import { useTranslation } from "react-i18next";
 
 const UserInfo = () => {
   useEffect(() => {
     const currentLanguage = i18n.language;
-    if (currentLanguage === "ar") {
+    if (currentLanguage === "sa") {
       document.body.dir = "rtl";
     } else {
       document.body.dir = "ltr";

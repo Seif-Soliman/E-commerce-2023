@@ -8,8 +8,8 @@ import { SigninLink } from "../../../pages/authentication/SigninLink";
 import Signout from "../../../pages/authentication/Signout";
 import { useAppSelector } from "../../../store/hooks";
 import LanguageSwitch from "../../../locales/languageSwitch";
-import { useEffect } from "react";
-import i18n from "../../../i18n";
+import React, { useEffect } from "react";
+import i18n from "../../../locales/i18n";
 import { useTranslation } from "react-i18next";
 
 function NavBar() {
@@ -18,48 +18,57 @@ function NavBar() {
   const userName = loggedIn ? name.userName : null;
   const greetingMessage = userName ? `Hello, ${userName}` : "Please Sign in";
 
+  const renderAuthLinks = () => {
+    if (loggedIn) {
+      return <Signout />;
+    } else {
+      return (
+        <React.Fragment>
+          <SignupLink />
+          <SigninLink />
+        </React.Fragment>
+      );
+    }
+  };
+
   useEffect(() => {
     const currentLanguage = i18n.language;
-    if (currentLanguage === "ar") {
-      document.body.dir = "rtl";
-    } else {
-      document.body.dir = "ltr";
-    }
+    document.body.dir = currentLanguage === "sa" ? "rtl" : "ltr";
   }, []);
 
   const { t } = useTranslation();
+
   return (
-    <Navbar bg="dark" data-bs-theme="dark" sticky="top">
-      <Container>
-        <Navbar.Brand href="#home">Seif Store</Navbar.Brand>
-        <Nav className="d-flex justify-content-between align-items-center  w-100">
-          <div>
-            <Link to="/" className="p-3">
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" sticky="top">
+      <Container fluid>
+        <Navbar.Brand as={Link} to="/">
+          Seif Store
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="me-auto">
+            <Link to="/" className="nav-link">
               {t("Home")}
             </Link>
-            <Link to="/products" className="p-3">
+            <Link to="/products" className="nav-link">
               {t("Products")}
             </Link>
-            <Link to="/categories" className="p-3">
+            <Link to="/categories" className="nav-link">
               {t("Category")}
             </Link>
-            <Link to="/profile" className="p-3">
+            <Link to="/profile" className="nav-link">
               {t("Profile")}
             </Link>
-          </div>
-          <div className="ms-right p-3" style={{ color: "white" }}>
-            {greetingMessage}
-          </div>
-          <div className="ms-right p-3 d-flex">
-            <SignupLink />
-            <SigninLink />
-            <Signout />
-          </div>
-          <div className="ms-right p-3">
-            <CartLink />
-          </div>
-          <LanguageSwitch />
-        </Nav>
+          </Nav>
+          <Nav className="ms-auto align-items-center">
+            <div className="text-white p-3">{greetingMessage}</div>
+            <div className="p-3">{renderAuthLinks()}</div>
+            <div className="p-3">
+              <CartLink />
+            </div>
+            <LanguageSwitch />
+          </Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

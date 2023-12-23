@@ -3,7 +3,7 @@ import { getMemoizedNumItems } from "../../store/cart/cartSlice";
 import { useAppSelector } from "../../store/hooks";
 import styles from "./CartLink.module.css";
 import { useEffect } from "react";
-import i18n from "../../i18n";
+import i18n from "../../locales/i18n";
 import { useTranslation } from "react-i18next";
 
 export function CartLink() {

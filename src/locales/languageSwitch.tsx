@@ -1,17 +1,32 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import Flags from "react-flags-select";
 
 const LanguageSwitch = () => {
   const { i18n } = useTranslation();
 
-  const switchLanguage = (lng: string | undefined) => {
+  const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
 
+  useEffect(() => {
+    const currentLanguage = i18n.language;
+    if (currentLanguage === "sa") {
+      document.body.dir = "rtl";
+    } else {
+      document.body.dir = "ltr";
+    }
+  }, [i18n.language]);
+
   return (
-    <div>
-      <button onClick={() => switchLanguage("en")}>English</button>
-      <button onClick={() => switchLanguage("ar")}>Arabic</button>
-    </div>
+    <Flags
+      countries={["US", "SA"]}
+      customLabels={{ EN: "English", SA: "العربية" }}
+      onSelect={(code) => changeLanguage(code.toLowerCase())}
+      selected={i18n.language.toUpperCase()}
+      className="flag-select"
+      placeholder="Select Language"
+    />
   );
 };
 
