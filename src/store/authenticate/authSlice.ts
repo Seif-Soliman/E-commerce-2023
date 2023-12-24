@@ -14,9 +14,9 @@ const authSlice = createSlice({
       state.editEmailMode = !state.editEmailMode;
     },
 
-    setNewEmail: (state, action: PayloadAction<string>) => {
-      state.newEmail = action.payload;
-    },
+    // setNewEmail: (state, action: PayloadAction<string>) => {
+    //   state.newEmail = action.payload;
+    // },
 
     updateEmail: (state, action) => {
       if (state.currentUser) state.currentUser.user.email = action.payload;
@@ -55,6 +55,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         console.log("action payload", action.payload);
         state.errorSignIn = action.payload as string;
+        console.log(state.errorSignIn);
       })
 
       .addCase(signOut.pending, (state) => {
@@ -72,6 +73,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { toggleEditEmailMode, setNewEmail, updateEmail } =
-  authSlice.actions;
+export const { toggleEditEmailMode, updateEmail } = authSlice.actions;
 export default authSlice.reducer;

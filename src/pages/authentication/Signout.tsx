@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { signOut } from "../../store/authenticate/thunks";
 import { useAppDispatch } from "../../store/hooks";
-import styles from "./Link.module.css";
 import i18n from "../../locales/i18n";
 import { useTranslation } from "react-i18next";
+import { Button } from "react-bootstrap";
 
 const Signout = () => {
   const dispatch = useAppDispatch();
@@ -24,12 +24,10 @@ const Signout = () => {
   const { t } = useTranslation();
 
   return (
-    <div className={styles.link}>
-      <span className={styles.text}>
-        <button onClick={handleSignout} className={styles.button}>
-          {t("Sign Out")}
-        </button>
-      </span>
+    <div>
+      <Button onClick={handleSignout} variant="secondary">
+        {t("Sign Out")}
+      </Button>
     </div>
   );
 };

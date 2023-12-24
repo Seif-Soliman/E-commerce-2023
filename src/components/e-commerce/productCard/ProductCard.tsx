@@ -6,7 +6,10 @@ import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import Col from "react-bootstrap/Col";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { updateQuantityFilterProduct } from "../../../store/filteredProduct/filterProductSlice";
+
+import styles from "./ProductCard.module.css";
+import { Row } from "react-bootstrap";
+import { updateQuantityFilterProduct } from "../../../store/product/productSlice";
 
 interface Props extends ProductType {}
 
@@ -39,32 +42,34 @@ const ProductCard: React.FC<Props> = ({
   const productName: string = t(`ProductName_${title}`);
 
   return (
-    <Col xs={12} sm={6} md={4} lg={3} className="mb-4" key={id}>
-      <Card style={{ minWidth: "14rem" }}>
-        <Card.Img variant="top" src={img} />
-        <Card.Body>
-          <Card.Title>{productName}</Card.Title>
-          <ListGroup className="list-group-flush">
-            <ListGroup.Item>
-              {t("Category")}: {translatedCategory}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              {t("Price")}: ${price}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              {t("Available quantity")}: {max_quantity - quantityFromCart}
-            </ListGroup.Item>
-          </ListGroup>
-          <Button
-            variant="primary"
-            onClick={handleAddToCart}
-            disabled={max_quantity - quantityFromCart === 0}
-          >
-            {t("Add to Cart")} 🛒
-          </Button>
-        </Card.Body>
-      </Card>
-    </Col>
+    <Row className="justify-content-center align-items-center mb-4 " key={id}>
+      <Col className="mb-4">
+        <Card className={styles.customCard}>
+          <Card.Img variant="top" src={img} />
+          <Card.Body>
+            <Card.Title>{productName}</Card.Title>
+            <ListGroup className="list-group-flush">
+              <ListGroup.Item>
+                {t("Category")}: {translatedCategory}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                {t("Price")}: ${price}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                {t("Available quantity")}: {max_quantity - quantityFromCart}
+              </ListGroup.Item>
+            </ListGroup>
+            <Button
+              variant="primary"
+              onClick={handleAddToCart}
+              disabled={max_quantity - quantityFromCart === 0}
+            >
+              {t("Add to Cart")} 🛒
+            </Button>
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 

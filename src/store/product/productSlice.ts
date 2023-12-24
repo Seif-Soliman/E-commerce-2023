@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { ProductType } from "./productTypes";
 import { initialState } from "./initialState";
-import { fetchProducts } from "./thunk";
+import { fetchProduct, fetchProducts } from "./thunk";
 
 const productSlice = createSlice({
   name: "product",
@@ -9,6 +9,13 @@ const productSlice = createSlice({
   reducers: {
     receivedProducts(state, action: PayloadAction<ProductType[]>) {
       state.products = action.payload.filter(Boolean); // Assign the payload directly to products array
+    },
+    updateQuantityFilterProduct: (
+      state,
+      action: PayloadAction<{ id: string; quantity: number }>
+    ) => {
+      const { id, quantity } = action.payload;
+      state.quantity = { ...state.quantity, [id]: quantity };
     },
   },
   extraReducers: function (builder) {
@@ -32,8 +39,23 @@ const productSlice = createSlice({
         state.loading = false;
         state.errorMsg = action.error.message ?? "";
       });
+    builder
+      .addCase(fetchProduct.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.errorMsg = "";
+        state.products = action.payload;
+      })
+      .addCase(fetchProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMsg = action.error.message ?? "";
+      });
   },
 });
 
-export const { receivedProducts } = productSlice.actions;
+export { fetchProduct };
+export const { receivedProducts, updateQuantityFilterProduct } =
+  productSlice.actions;
 export default productSlice.reducer;

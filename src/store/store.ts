@@ -12,10 +12,10 @@ import {
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import cartReducer from "./cart/cartSlice";
 import productReducer from "./product/productSlice";
-import filterproduct from "./filteredProduct/filterProductSlice";
 import categoryReducer from "./category/categorySlice";
 import auth from "./authenticate/authSlice";
 import order from "./order/orderSlice";
+import thunk from "redux-thunk";
 
 const persistConfig = {
   key: "root",
@@ -39,7 +39,6 @@ const rootReducer = combineReducers({
   cart: persistReducer(cartPersistConfig, cartReducer),
   product: productReducer,
   category: categoryReducer,
-  filterproduct,
   auth: persistReducer(authPersistConfig, auth),
   order,
 });
@@ -53,7 +52,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(thunk),
 });
 
 export const persistor = persistStore(store);

@@ -55,5 +55,7 @@
   "Quantity": "كمية",
   "Total": "المجموع",
   "Remove": "يزيل",
-  "Checkout": "الدفع"
+  "Checkout": "الدفع",
+  "Order ID: ": " :رقم التعريف الخاص بالطلب",
+  "Most Popular": "الأكثر شعبية"
 }

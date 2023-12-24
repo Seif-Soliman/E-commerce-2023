@@ -25,13 +25,27 @@ const Category = () => {
   const renderData = (record: CategoryType | ProductType, index: number) => {
     if ("prefix" in record) {
       return (
-        <Col xs={12} sm={6} md={4} lg={3} key={record.id}>
+        <Col
+          // xs={12}
+          // sm={6}
+          // md={4}
+          // lg={3}
+          className="customWidth"
+          key={record.id}
+        >
           <CartegoryCard {...(record as CategoryType)} />
         </Col>
       );
     } else {
       return (
-        <Col xs={12} sm={6} md={4} lg={3} key={`${record.id}_${index}`}>
+        <Col
+          // xs={12}
+          // sm={6}
+          // md={4}
+          // lg={3}
+          className="customWidth"
+          key={`${record.id}_${index}`}
+        >
           <ProductCard {...(record as ProductType)} />
         </Col>
       );
@@ -49,7 +63,10 @@ const Category = () => {
 
   const { t } = useTranslation();
   return (
-    <main className="page">
+    <main
+      className="page"
+      style={{ minHeight: "100vh", backgroundColor: "#eee" }}
+    >
       <Container>
         <h1>{t("Categories")}</h1>
         <Row>

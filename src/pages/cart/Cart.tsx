@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-// import classNames from "classnames";
+import classNames from "classnames";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import {
   getTotalPrice,
@@ -8,12 +8,13 @@ import {
 } from "../../store/cart/cartSlice";
 import { checkoutCart, itemInCart } from "../../store/cart/thunk";
 import styles from "./Cart.module.css";
-import { updateQuantityFilterProduct } from "../../store/filteredProduct/filterProductSlice";
+
 import { updateOrder } from "../../store/order/orderSlice";
 import { CartState } from "../../store/cart/initialState";
 import i18n from "../../locales/i18n";
 import { useTranslation } from "react-i18next";
 import { Table, Button, Form, Alert } from "react-bootstrap";
+import { updateQuantityFilterProduct } from "../../store/product/productSlice";
 
 export function Cart() {
   const dispatch = useAppDispatch();
@@ -48,7 +49,7 @@ export function Cart() {
   ) {
     const quantity = Number(e.target.value) || 0;
     dispatch(updateQuantity({ quantity, id }));
-    dispatch(updateQuantityFilterProduct({ id: id.toString(), quantity })); // Corrected syntax
+    dispatch(updateQuantityFilterProduct({ id: id.toString(), quantity }));
   }
 
   const item = useAppSelector((state) => state.cart.receivedItems);
@@ -68,12 +69,12 @@ export function Cart() {
     dispatch(updateOrder({ cart, userId }));
   }
 
-  //classname to join different conditional classes for css
-  // const tableClasses = classNames({
-  //   [styles.table]: true,
-  //   [styles.checkoutError]: checkoutState === "Error",
-  //   [styles.checkoutLoading]: checkoutState === "Loading",
-  // });
+  // classname to join different conditional classes for css
+  const tableClasses = classNames({
+    [styles.table]: true,
+    [styles.checkoutError]: checkoutState === "Error",
+    [styles.checkoutLoading]: checkoutState === "Loading",
+  });
 
   useEffect(() => {
     const currentLanguage = i18n.language;
@@ -89,7 +90,12 @@ export function Cart() {
   return (
     <main className="page">
       <h1>{t("Shopping Cart")}</h1>
-      <Table striped bordered responsive>
+      <Table
+        bordered
+        responsive
+        hover
+        className={`${styles.table} ${tableClasses}`}
+      >
         <thead>
           <tr>
             <th>{t("Product")}</th>
@@ -148,9 +154,11 @@ export function Cart() {
       </Table>
       <Form onSubmit={onCheckout} className="mt-4">
         {checkoutState === "Error" && errorMsg ? (
-          <Alert variant="danger">{errorMsg}</Alert>
+          <Alert variant="danger" className={styles.errorBox}>
+            {errorMsg}
+          </Alert>
         ) : null}
-        <Button variant="primary" type="submit">
+        <Button className={styles.button} type="submit">
           {t("Checkout")}
         </Button>
       </Form>

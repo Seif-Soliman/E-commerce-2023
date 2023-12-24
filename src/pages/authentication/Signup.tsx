@@ -1,28 +1,11 @@
-import { useEffect } from "react";
-// import {
-//   // Container,
-//   Row, Col } from "react-bootstrap";
-// import Button from "react-bootstrap/Button";
-// import Form from "react-bootstrap/Form";
+import { ChangeEvent, useEffect } from "react";
 import { useAppDispatch } from "../../store/hooks";
 import { signUp } from "../../store/authenticate/thunks";
 import i18n from "../../locales/i18n";
 import { useTranslation } from "react-i18next";
-import {
-  Formik,
-  Form as FormikForm,
-  // Field,
-  // ErrorMessage,
-  FormikHelpers,
-} from "formik";
+import { Formik, Form as FormikForm, FormikHelpers, FormikProps } from "formik";
 import * as Yup from "yup";
-import {
-  TextField,
-  Button,
-  // Typography,
-  Container,
-  Grid,
-} from "@mui/material";
+import { TextField, Button, Container, Box, Grid } from "@mui/material";
 
 function Signup() {
   const SignupSchema = Yup.object().shape({
@@ -54,6 +37,14 @@ function Signup() {
       .catch((error) => console.error(error));
   };
 
+  const handleChange =
+    (formikProps: FormikProps<FormValues>) =>
+    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      console.log(`Field ${name} has a new value: ${value}`);
+      formikProps.handleChange(e); // Use Formik's handleChange
+    };
+
   useEffect(() => {
     const currentLanguage = i18n.language;
     if (currentLanguage === "sa") {
@@ -78,58 +69,97 @@ function Signup() {
             }}
             validationSchema={SignupSchema}
             onSubmit={handleSubmit}
+            validateOnChange={true}
           >
-            {({ errors, touched }) => (
+            {(formikProps) => (
               <FormikForm>
-                <TextField
-                  fullWidth
-                  label={t("Email address")}
-                  type="email"
-                  name="email"
-                  placeholder={t("Enter email")}
-                  error={!!errors.email && touched.email}
-                  helperText={errors.email && touched.email ? errors.email : ""}
-                />
+                <Box
+                  sx={{
+                    "& > :not(style)": {
+                      marginTop: "1.5rem",
+                    },
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    label={t("Email address")}
+                    type="email"
+                    name="email"
+                    placeholder={t("Enter email")}
+                    onChange={handleChange(formikProps)} // Pass formikProps to handleChange
+                    value={formikProps.values.email}
+                    error={
+                      !!formikProps.errors.email && formikProps.touched.email
+                    }
+                    helperText={
+                      formikProps.errors.email && formikProps.touched.email
+                        ? formikProps.errors.email
+                        : ""
+                    }
+                  />
 
-                <TextField
-                  fullWidth
-                  label={t("Password")}
-                  type="password"
-                  name="password"
-                  placeholder={t("Enter Password")}
-                  error={!!errors.password && touched.password}
-                  helperText={
-                    errors.password && touched.password ? errors.password : ""
-                  }
-                />
+                  <TextField
+                    fullWidth
+                    label={t("Password")}
+                    type="password"
+                    name="password"
+                    placeholder={t("Enter Password")}
+                    onChange={handleChange(formikProps)} // Pass formikProps to handleChange
+                    value={formikProps.values.password}
+                    error={
+                      !!formikProps.errors.password &&
+                      formikProps.touched.password
+                    }
+                    helperText={
+                      formikProps.errors.password &&
+                      formikProps.touched.password
+                        ? formikProps.errors.password
+                        : ""
+                    }
+                  />
 
-                <TextField
-                  fullWidth
-                  label={t("Name")}
-                  type="text"
-                  name="userName"
-                  placeholder={t("Enter name")}
-                  error={!!errors.userName && touched.userName}
-                  helperText={
-                    errors.userName && touched.userName ? errors.userName : ""
-                  }
-                />
+                  <TextField
+                    fullWidth
+                    label={t("Name")}
+                    type="text"
+                    name="userName"
+                    placeholder={t("Enter name")}
+                    onChange={handleChange(formikProps)} // Pass formikProps to handleChange
+                    value={formikProps.values.userName}
+                    error={
+                      !!formikProps.errors.userName &&
+                      formikProps.touched.userName
+                    }
+                    helperText={
+                      formikProps.errors.userName &&
+                      formikProps.touched.userName
+                        ? formikProps.errors.userName
+                        : ""
+                    }
+                  />
 
-                <TextField
-                  fullWidth
-                  label={t("Mobile")}
-                  type="text"
-                  name="mobile"
-                  placeholder={t("Enter mobile")}
-                  error={!!errors.mobile && touched.mobile}
-                  helperText={
-                    errors.mobile && touched.mobile ? errors.mobile : ""
-                  }
-                />
+                  <TextField
+                    fullWidth
+                    label={t("Mobile")}
+                    type="text"
+                    name="mobile"
+                    placeholder={t("Enter mobile")}
+                    onChange={handleChange(formikProps)} // Pass formikProps to handleChange
+                    value={formikProps.values.mobile}
+                    error={
+                      !!formikProps.errors.mobile && formikProps.touched.mobile
+                    }
+                    helperText={
+                      formikProps.errors.mobile && formikProps.touched.mobile
+                        ? formikProps.errors.mobile
+                        : ""
+                    }
+                  />
 
-                <Button variant="contained" type="submit">
-                  {t("Sign Up")}
-                </Button>
+                  <Button variant="contained" type="submit">
+                    {t("Sign Up")}
+                  </Button>
+                </Box>
               </FormikForm>
             )}
           </Formik>

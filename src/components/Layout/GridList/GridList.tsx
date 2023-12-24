@@ -6,14 +6,13 @@ import { Loading } from "../../Loading/Loading";
 type GridListProps = {
   loading: boolean;
   error: string | null;
-  // renderData?: React.ReactElement[];
   renderData?: (props: CategoryType | ProductType) => React.ReactNode;
   children?: React.ReactNode;
   data: (CategoryType | ProductType)[];
   renderFunction?: (
     record: CategoryType | ProductType,
     index: number
-  ) => React.JSX.Element;
+  ) => React.ReactNode;
 };
 
 const GridList: FC<GridListProps> = ({

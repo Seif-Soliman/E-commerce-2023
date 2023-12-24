@@ -1,36 +1,46 @@
-import { useState, ChangeEvent, FormEvent, useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import { ChangeEvent, useEffect } from "react";
 import { useAppDispatch } from "../../store/hooks";
 import { signIn } from "../../store/authenticate/thunks";
 import i18n from "../../locales/i18n";
 import { useTranslation } from "react-i18next";
+import { Formik, Form as FormikForm, FormikHelpers, FormikProps } from "formik";
+import * as Yup from "yup";
+import { TextField, Button, Container, Box, Grid } from "@mui/material";
 
-const Signin = () => {
-  const dispatch = useAppDispatch();
-
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+function Signin() {
+  const SigninSchema = Yup.object().shape({
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
   });
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    dispatch(signIn(formData))
+  const dispatch = useAppDispatch();
+
+  type FormValues = {
+    email: string;
+    password: string;
+  };
+
+  const handleSubmit = (
+    values: FormValues,
+    { resetForm }: FormikHelpers<FormValues>
+  ) => {
+    console.log("Form Values:", values);
+    dispatch(signIn(values))
       .then(() => {
-        setFormData({
-          email: "",
-          password: "",
-        });
+        resetForm();
       })
       .catch((error) => console.error(error));
-  }
+  };
 
-  function handleChange(e: ChangeEvent) {
-    const target = e.target as HTMLInputElement;
-    setFormData({ ...formData, [target.name]: target.value });
-  }
+  const handleChange =
+    (formikProps: FormikProps<FormValues>) =>
+    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      console.log(`Field ${name} has a new value: ${value}`);
+      formikProps.handleChange(e); // Use Formik's handleChange
+    };
 
   useEffect(() => {
     const currentLanguage = i18n.language;
@@ -45,61 +55,77 @@ const Signin = () => {
 
   return (
     <Container>
-      <Row className="justify-content-md-center">
-        <Col xs={12} md={6}>
-          <Form onSubmit={(e) => handleSubmit(e)}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>{t("Enter Email address")}</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder={t("Enter email")}
-                value={formData.email}
-                name="email"
-                onChange={(e) => handleChange(e)}
-              />
-            </Form.Group>
+      <Grid container justifyContent="center">
+        <Grid item xs={12} md={6}>
+          <Formik
+            initialValues={{
+              email: "",
+              password: "",
+            }}
+            validationSchema={SigninSchema}
+            onSubmit={handleSubmit}
+            validateOnChange={true}
+          >
+            {(
+              formikProps // Destructure formikProps to access values, errors, touched
+            ) => (
+              <FormikForm>
+                <Box
+                  sx={{
+                    "& > :not(style)": {
+                      marginTop: "1.5rem",
+                    },
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    label={t("Email address")}
+                    type="email"
+                    name="email"
+                    onChange={handleChange(formikProps)} // Pass formikProps to handleChange
+                    value={formikProps.values.email}
+                    placeholder={t("Enter email")}
+                    error={
+                      !!formikProps.errors.email && formikProps.touched.email
+                    }
+                    helperText={
+                      formikProps.errors.email && formikProps.touched.email
+                        ? formikProps.errors.email
+                        : ""
+                    }
+                  />
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>{t("Enter Password")}</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder={t("Enter Password")}
-                value={formData.password}
-                name="password"
-                onChange={(e) => handleChange(e)}
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              {t("Sign In")}
-            </Button>
-          </Form>
-        </Col>
-      </Row>
+                  <TextField
+                    fullWidth
+                    label={t("Password")}
+                    type="password"
+                    name="password"
+                    onChange={handleChange(formikProps)} // Pass formikProps to handleChange
+                    value={formikProps.values.password}
+                    placeholder={t("Enter Password")}
+                    error={
+                      !!formikProps.errors.password &&
+                      formikProps.touched.password
+                    }
+                    helperText={
+                      formikProps.errors.password &&
+                      formikProps.touched.password
+                        ? formikProps.errors.password
+                        : ""
+                    }
+                  />
+
+                  <Button variant="contained" type="submit">
+                    {t("Sign In")}
+                  </Button>
+                </Box>
+              </FormikForm>
+            )}
+          </Formik>
+        </Grid>
+      </Grid>
     </Container>
   );
-};
+}
 
 export default Signin;
-
-// <div>
-//   <h1>Login</h1>
-//   <form className="login-form" onSubmit={(e) => handleSubmit(e)}>
-//     <input
-//       type="text"
-//       placeholder="Email"
-//       value={formData.email}
-//       name="email"
-//       onChange={(e) => handleChange(e)}
-//     ></input>
-//     <input
-//       type="text"
-//       placeholder="Password"
-//       value={formData.password}
-//       name="password"
-//       onChange={(e) => handleChange(e)}
-//     ></input>
-//     <button className="login-btn" type="submit">
-//       Login
-//     </button>
-//   </form>
-// </div>

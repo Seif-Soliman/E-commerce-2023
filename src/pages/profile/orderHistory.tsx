@@ -38,7 +38,10 @@ const OrderHistory = () => {
             <Accordion className="rounded-3">
               {orders.map((order, index) => (
                 <Accordion.Item key={index} eventKey={`${index}`}>
-                  <Accordion.Header>{`Order ID: ${order.id}`}</Accordion.Header>
+                  <Accordion.Header>
+                    {t("Order ID: ")}
+                    {`${order.id}`}
+                  </Accordion.Header>
                   <Accordion.Body>
                     {Array.isArray(order.orders) ? (
                       order.orders.map((item, idx) => (
@@ -46,8 +49,8 @@ const OrderHistory = () => {
                           <Card.Body>
                             <Card.Img src={item.img} />
                             <Card.Text>
-                              Quantity: {item.quantity}, Product:{" "}
-                              {item.product?.title}, Price: $
+                              {t("Quantity")}: {item.quantity}, {t("Product")}:
+                              {item.product?.title}, {t("Price")}: $
                               {item.product?.price}
                             </Card.Text>
                           </Card.Body>
@@ -58,9 +61,9 @@ const OrderHistory = () => {
                         <Card.Body>
                           <Card.Img src={order.orders?.product?.img} />
                           <Card.Text>
-                            Quantity: {order.orders?.quantity}, Product:{" "}
-                            {order.orders?.product?.title}, Price: $
-                            {order.orders?.product?.price}
+                            {t("Quantity")}: {order.orders?.quantity},{" "}
+                            {t("Product")}:{order.orders?.product?.title},{" "}
+                            {t("Price")}: ${order.orders?.product?.price}
                           </Card.Text>
                         </Card.Body>
                       </Card>

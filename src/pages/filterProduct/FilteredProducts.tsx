@@ -7,11 +7,9 @@ import CartegoryCard from "../../components/e-commerce/categoryCard/CartegoryCar
 import { Col, Container, Row } from "react-bootstrap";
 
 export function FilteredProducts() {
-  const items = useAppSelector((state) => state.filterproduct.products);
-  const productFetchState = useAppSelector(
-    (state) => state.filterproduct.loading
-  );
-  const errorMsg = useAppSelector((state) => state.filterproduct.errorMsg);
+  const items = useAppSelector((state) => state.product.products);
+  const productFetchState = useAppSelector((state) => state.product.loading);
+  const errorMsg = useAppSelector((state) => state.product.errorMsg);
 
   const renderData = (record: CategoryType | ProductType, index: number) => {
     if ("prefix" in record) {
