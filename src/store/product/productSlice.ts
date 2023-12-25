@@ -17,6 +17,9 @@ const productSlice = createSlice({
       const { id, quantity } = action.payload;
       state.quantity = { ...state.quantity, [id]: quantity };
     },
+    setSearchQuery(state, action: PayloadAction<string>) {
+      state.searchQuery = action.payload;
+    },
   },
   extraReducers: function (builder) {
     builder
@@ -56,6 +59,6 @@ const productSlice = createSlice({
 });
 
 export { fetchProduct };
-export const { receivedProducts, updateQuantityFilterProduct } =
+export const { receivedProducts, updateQuantityFilterProduct, setSearchQuery } =
   productSlice.actions;
 export default productSlice.reducer;

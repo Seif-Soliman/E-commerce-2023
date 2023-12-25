@@ -13,11 +13,6 @@ const authSlice = createSlice({
     toggleEditEmailMode: (state) => {
       state.editEmailMode = !state.editEmailMode;
     },
-
-    // setNewEmail: (state, action: PayloadAction<string>) => {
-    //   state.newEmail = action.payload;
-    // },
-
     updateEmail: (state, action) => {
       if (state.currentUser) state.currentUser.user.email = action.payload;
       state.editEmailMode = false;
@@ -48,7 +43,7 @@ const authSlice = createSlice({
       .addCase(signIn.fulfilled, (state, action: PayloadAction<User>) => {
         state.isLoading = false;
         state.isLoggedIn = true;
-        state.currentUser = action.payload; // Store the array of users
+        state.currentUser = action.payload;
         console.log("action payload", action.payload);
       })
       .addCase(signIn.rejected, (state, action) => {

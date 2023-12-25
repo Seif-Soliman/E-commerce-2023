@@ -1,11 +1,9 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { FaUser, FaSignInAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { CartLink } from "../../../pages/cart/CartLink";
-// import { SignupLink } from "../../../pages/authentication/SignupLink";
-// import { SigninLink } from "../../../pages/authentication/SigninLink";
-// import Signout from "../../../pages/authentication/Signout";
 import { useAppSelector } from "../../../store/hooks";
 import LanguageSwitch from "../../../locales/languageSwitch";
 import { useEffect, useState } from "react";
@@ -15,6 +13,7 @@ import { Button } from "react-bootstrap";
 import SignInModal from "../../../pages/authentication/SignInModal";
 import SignUpModal from "../../../pages/authentication/SignUpModal";
 import Signout from "../../../pages/authentication/Signout";
+import style from "./Nav.module.css";
 
 function NavBar() {
   const [showSignIn, setShowSignIn] = useState(false);
@@ -34,7 +33,8 @@ function NavBar() {
       return <Signout />;
     } else {
       return (
-        <Button variant="secondary" onClick={handleShowSignIn}>
+        <Button variant="outline-light" onClick={handleShowSignIn}>
+          <FaSignInAlt className="me-2" />
           Sign In
         </Button>
       );
@@ -49,28 +49,35 @@ function NavBar() {
   const { t } = useTranslation();
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" sticky="top">
+    <Navbar
+      collapseOnSelect
+      expand="lg"
+      className={style.gradient_bg}
+      variant="dark"
+      sticky="top"
+    >
       <Container fluid>
-        <Navbar.Brand as={Link} to="/">
-          <strong>Seif Store</strong>
+        <Navbar.Brand as={Link} to="/" className={style.navbar_brand}>
+          <strong className="text-white">Seif Store</strong>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Link to="/products" className="nav-link">
+            <Link to="/products" className={style.nav_link}>
               {t("Products")}
             </Link>
-            <Link to="/categories" className="nav-link">
+            <Link to="/categories" className={style.nav_link}>
               {t("Category")}
             </Link>
-            <Link to="/profile" className="nav-link">
+            <Link to="/profile" className={style.nav_link}>
+              <FaUser className="me-1" />
               {t("Profile")}
             </Link>
           </Nav>
           <Nav className="ms-auto align-items-center">
-            <div className="text-white p-3">{greetingMessage}</div>
-            <div className="p-3">{renderAuthLinks()}</div>
-            <div className="p-3">
+            <div className="text-white p-2">{greetingMessage}</div>
+            <div className="p-2">{renderAuthLinks()}</div>
+            <div className="p-2">
               <CartLink />
             </div>
             <LanguageSwitch />

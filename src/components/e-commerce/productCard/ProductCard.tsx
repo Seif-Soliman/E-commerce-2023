@@ -42,8 +42,11 @@ const ProductCard: React.FC<Props> = ({
   const productName: string = t(`ProductName_${title}`);
 
   return (
-    <Row className="justify-content-center align-items-center mb-4 " key={id}>
-      <Col className="mb-4">
+    <Row
+      className="justify-content-center align-items-center mt-4 mb-2"
+      key={id}
+    >
+      <Col>
         <Card className={styles.customCard}>
           <Card.Img variant="top" src={img} />
           <Card.Body>

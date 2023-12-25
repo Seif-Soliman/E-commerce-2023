@@ -1,8 +1,12 @@
 import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import { receivedProducts } from "../../store/product/productSlice";
+import {
+  receivedProducts,
+  setSearchQuery,
+} from "../../store/product/productSlice";
 import { fetchProducts } from "../../store/product/thunk";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Form, InputGroup } from "react-bootstrap";
+import { FaSearch } from "react-icons/fa";
 import ProductCard from "../../components/e-commerce/productCard/ProductCard";
 import GridList from "../../components/Layout/GridList/GridList";
 import { ProductType } from "../../store/product/productTypes";
@@ -66,6 +70,17 @@ export function Products() {
   }, []);
 
   const { t } = useTranslation();
+
+  const searchQuery = useAppSelector((state) => state.product.searchQuery);
+
+  const handleSearch = (values: string) => {
+    dispatch(setSearchQuery(values));
+  };
+
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <main
       className="page"
@@ -73,9 +88,22 @@ export function Products() {
     >
       <Container>
         <h1>{t("All Products")}</h1>
+        <Form.Group controlId="searchProducts" className="mb-4">
+          <InputGroup className="w-25">
+            <InputGroup.Text>
+              <FaSearch />
+            </InputGroup.Text>
+            <Form.Control
+              type="text"
+              placeholder={t("Search products...")}
+              onChange={(e) => handleSearch(e.target.value)}
+              className="w-25"
+            />
+          </InputGroup>
+        </Form.Group>
         <Row>
           <GridList
-            data={products}
+            data={filteredProducts}
             loading={productFetchState}
             error={errorMsg}
             renderFunction={renderData}

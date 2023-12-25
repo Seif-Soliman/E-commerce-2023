@@ -25,7 +25,7 @@ const Signout = () => {
 
   return (
     <div>
-      <Button onClick={handleSignout} variant="secondary">
+      <Button onClick={handleSignout} variant="outline-light">
         {t("Sign Out")}
       </Button>
     </div>

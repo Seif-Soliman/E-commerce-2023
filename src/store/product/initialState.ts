@@ -5,6 +5,7 @@ interface ProductState {
   loading: boolean;
   errorMsg: string;
   quantity: { [id: string]: number };
+  searchQuery: string;
 }
 
 export const initialState: ProductState = {
@@ -12,4 +13,5 @@ export const initialState: ProductState = {
   loading: true,
   errorMsg: "Failed to fetch products",
   quantity: {},
+  searchQuery: "",
 };

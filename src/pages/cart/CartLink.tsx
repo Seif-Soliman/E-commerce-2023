@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { getMemoizedNumItems } from "../../store/cart/cartSlice";
 import { useAppSelector } from "../../store/hooks";
-import styles from "./CartLink.module.css";
 import { useEffect } from "react";
 import i18n from "../../locales/i18n";
 import { useTranslation } from "react-i18next";
+import { Button } from "react-bootstrap";
+import style from "./CartLink.module.css";
 
 export function CartLink() {
   useEffect(() => {
@@ -14,8 +15,10 @@ export function CartLink() {
   const { t } = useTranslation();
   const numItems = useAppSelector(getMemoizedNumItems);
   return (
-    <Link to="/cart" className={styles.link}>
-      <span className={styles.text}>🛒&nbsp;&nbsp;{numItems || t("Cart")}</span>
-    </Link>
+    <Button variant="outline-light">
+      <Link to="/cart" className={style.button_link}>
+        🛒&nbsp;&nbsp;{numItems || t("Cart")}
+      </Link>
+    </Button>
   );
 }

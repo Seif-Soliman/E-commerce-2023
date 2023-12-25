@@ -55,18 +55,14 @@ export const updateEmailAndData = (newEmail: string) => {
     getState: () => RootState
   ) => {
     try {
-      // Dispatch action to update local state with new email
       dispatch(updateEmail(newEmail));
 
-      // Dispatch standard action to inform about the update
       dispatch({ type: "UPDATE_EMAIL", payload: newEmail });
 
-      // Retrieve current user ID from the state
       const currentUser = getState().auth.currentUser;
       const userId = currentUser?.id;
 
       if (userId) {
-        // Dispatch the thunk action to update user email
         await dispatch(
           updateUserEmailThunk({
             userId,
@@ -79,28 +75,6 @@ export const updateEmailAndData = (newEmail: string) => {
     }
   };
 };
-
-// export const updateEmailAndData = (newEmail: string) => {
-//   return async (dispatch: Dispatch<any>, getState: () => RootState) => {
-//     try {
-//       dispatch(updateEmail(newEmail));
-//       dispatch({ type: "UPDATE_EMAIL", payload: newEmail });
-//       const currentUser = getState().auth.currentUser;
-//       const userId = currentUser?.id;
-
-//       if (userId) {
-//         dispatch(
-//           updateUserEmailThunk({
-//             userId,
-//             email: newEmail,
-//           })
-//         );
-//       }
-//     } catch (error) {
-//       console.error("Error updating email and data:", error);
-//     }
-//   };
-// };
 
 export const signUp = createAsyncThunk(
   "user/signUp",
