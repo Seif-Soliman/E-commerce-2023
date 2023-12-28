@@ -1,0 +1,32 @@
+.modal_title {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.MuiGridControl {
+  display: block !important;
+  width: 200% !important;
+}
+
+.MuiFormControl_root {
+  margin-bottom: 1.5rem;
+}
+
+.MuiFormHelperText_root {
+  color: red;
+}
+
+p {
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.btn_primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn_secondary {
+  background-color: #6c757d;
+  color: #fff;
+}

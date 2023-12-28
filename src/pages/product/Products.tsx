@@ -89,7 +89,7 @@ export function Products() {
       <Container>
         <h1>{t("All Products")}</h1>
         <Form.Group controlId="searchProducts" className="mb-4">
-          <InputGroup className="w-25">
+          <InputGroup className="w-50">
             <InputGroup.Text>
               <FaSearch />
             </InputGroup.Text>
@@ -97,7 +97,7 @@ export function Products() {
               type="text"
               placeholder={t("Search products...")}
               onChange={(e) => handleSearch(e.target.value)}
-              className="w-25"
+              className="w-50"
             />
           </InputGroup>
         </Form.Group>

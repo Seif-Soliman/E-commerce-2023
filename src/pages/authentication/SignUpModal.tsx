@@ -4,16 +4,17 @@ import { useAppDispatch } from "../../store/hooks";
 import { signUp } from "../../store/authenticate/thunks";
 import i18n from "../../locales/i18n";
 import { useTranslation } from "react-i18next";
-import { Formik, Form as FormikForm, FormikHelpers, FormikProps } from "formik";
+import { Formik, Form, FormikHelpers, FormikProps } from "formik";
 import * as Yup from "yup";
 import { TextField, Box, Grid } from "@mui/material";
+import style from "./style.module.css";
 
 interface SignUpModalProps {
   show: boolean;
   onHide: () => void;
 }
 
-function SignUpModal({ show, onHide }: SignUpModalProps) {
+function SignUpModal({ show, onHide }: Readonly<SignUpModalProps>) {
   const SignupSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string()
@@ -34,15 +35,22 @@ function SignUpModal({ show, onHide }: SignUpModalProps) {
 
   const handleSubmit = (
     values: FormValues,
-    { resetForm }: FormikHelpers<FormValues>,
-    onHide: () => void
+    actions: FormikHelpers<FormValues>
   ) => {
+    actions.setSubmitting(true); // Set submitting to true before the async operation
+
     dispatch(signUp(values))
       .then(() => {
-        resetForm();
+        actions.resetForm();
         onHide();
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        // Handle error if needed
+      })
+      .finally(() => {
+        actions.setSubmitting(false);
+      });
   };
 
   const handleChange =
@@ -72,11 +80,13 @@ function SignUpModal({ show, onHide }: SignUpModalProps) {
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title className="d-flex justify-content-center">
+        <Modal.Title
+          className={`${style.modal_title} d-flex justify-content-center`}
+        >
           Sign Up
         </Modal.Title>
       </Modal.Header>
-      <Grid container justifyContent="center">
+      <Grid container justifyContent="center" className={style.MuiGridControl}>
         <Grid item xs={12} md={6}>
           <Formik
             initialValues={{
@@ -86,13 +96,11 @@ function SignUpModal({ show, onHide }: SignUpModalProps) {
               mobile: "",
             }}
             validationSchema={SignupSchema}
-            onSubmit={(values, formikHelpers) =>
-              handleSubmit(values, formikHelpers, onHide)
-            }
+            onSubmit={handleSubmit}
             validateOnChange={true}
           >
             {(formikProps) => (
-              <FormikForm>
+              <Form onSubmit={formikProps.handleSubmit}>
                 <Modal.Body>
                   <Box
                     sx={{
@@ -102,6 +110,7 @@ function SignUpModal({ show, onHide }: SignUpModalProps) {
                     }}
                   >
                     <TextField
+                      className={style.MuiFormControl_root}
                       fullWidth
                       label={t("Email address")}
                       type="email"
@@ -120,6 +129,7 @@ function SignUpModal({ show, onHide }: SignUpModalProps) {
                     />
 
                     <TextField
+                      className={style.MuiFormControl_root}
                       fullWidth
                       label={t("Password")}
                       type="password"
@@ -140,6 +150,7 @@ function SignUpModal({ show, onHide }: SignUpModalProps) {
                     />
 
                     <TextField
+                      className={style.MuiFormControl_root}
                       fullWidth
                       label={t("Name")}
                       type="text"
@@ -160,6 +171,7 @@ function SignUpModal({ show, onHide }: SignUpModalProps) {
                     />
 
                     <TextField
+                      className={style.MuiFormControl_root}
                       fullWidth
                       label={t("Mobile")}
                       type="text"
@@ -180,14 +192,22 @@ function SignUpModal({ show, onHide }: SignUpModalProps) {
                   </Box>
                 </Modal.Body>
                 <Modal.Footer className="d-flex justify-content-center">
-                  <Button variant="primary" type="submit">
+                  <Button
+                    variant="primary"
+                    className={style.btn_primary}
+                    type="submit"
+                  >
                     {t("Sign Up")}
                   </Button>
-                  <Button variant="secondary" onClick={onHide}>
+                  <Button
+                    variant="secondary"
+                    className={style.btn_secondary}
+                    onClick={onHide}
+                  >
                     Close
                   </Button>
                 </Modal.Footer>
-              </FormikForm>
+              </Form>
             )}
           </Formik>
         </Grid>

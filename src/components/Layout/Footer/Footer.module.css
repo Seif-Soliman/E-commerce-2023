@@ -1,3 +1,11 @@
 .section_style {
-  background-color: "linear-gradient(to right, #ff8a00, #e52e71)";
+  background: linear-gradient(to right, #ff8a00, #e52e71) !important;
+}
+
+a.button::before svg {
+  color: white;
+}
+
+a.button:hover svg {
+  color: black;
 }

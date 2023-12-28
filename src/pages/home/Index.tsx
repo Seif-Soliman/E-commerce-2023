@@ -1,6 +1,4 @@
 import { Col, Container, Row } from "react-bootstrap";
-import slides from "../../../../server/data.json";
-import { Slider } from "./Slider";
 import GridList from "../../components/Layout/GridList/GridList";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,13 +10,9 @@ import { ProductType } from "../../store/product/productTypes";
 import { CategoryType } from "../../store/category/categoryTypes";
 import CartegoryCard from "../../components/e-commerce/categoryCard/CartegoryCard";
 import ProductCard from "../../components/e-commerce/productCard/ProductCard";
+import Slider from "./Slider";
 
 const Index = () => {
-  const items = slides.items.map((item) => ({
-    ...item,
-    price: parseFloat(item.price),
-  }));
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -66,7 +60,7 @@ const Index = () => {
       style={{ minHeight: "100vh", backgroundColor: "#eee" }}
     >
       <Container>
-        <Slider slides={items} />
+        <Slider />
         <h1>{t("Most Popular")}</h1>
         <Row xs={1} sm={2} md={3} lg={4}>
           <GridList

@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { Formik, Form as FormikForm, FormikHelpers, FormikProps } from "formik";
 import * as Yup from "yup";
 import { TextField, Box, Grid } from "@mui/material";
+import style from "./style.module.css";
 
 interface SignInModalProps {
   show: boolean;
@@ -20,7 +21,7 @@ function SignInModal({
   onHide,
   showSignUp,
   closeOtherModal,
-}: SignInModalProps) {
+}: Readonly<SignInModalProps>) {
   const SigninSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string()
@@ -52,8 +53,6 @@ function SignInModal({
   const handleChange =
     (formikProps: FormikProps<FormValues>) =>
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { name, value } = e.target;
-      console.log(`Field ${name} has a new value: ${value}`);
       formikProps.handleChange(e); // Use Formik's handleChange
     };
 
@@ -81,11 +80,13 @@ function SignInModal({
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title className="d-flex justify-content-center">
+        <Modal.Title
+          className={`${style.modal_title} d-flex justify-content-center`}
+        >
           Sign In
         </Modal.Title>
       </Modal.Header>
-      <Grid container justifyContent="center">
+      <Grid container justifyContent="center" className={style.MuiGridControl}>
         <Grid item xs={12} md={6}>
           <Formik
             initialValues={{
@@ -101,72 +102,79 @@ function SignInModal({
             {(
               formikProps // Destructure formikProps to access values, errors, touched
             ) => (
-              <>
-                <FormikForm>
-                  <Modal.Body>
-                    <Box
-                      sx={{
-                        "& > :not(style)": {
-                          marginTop: "1.5rem",
-                        },
-                      }}
-                    >
-                      <TextField
-                        fullWidth
-                        label={t("Email address")}
-                        type="email"
-                        name="email"
-                        onChange={handleChange(formikProps)} // Pass formikProps to handleChange
-                        value={formikProps.values.email}
-                        placeholder={t("Enter email")}
-                        error={
-                          !!formikProps.errors.email &&
-                          formikProps.touched.email
-                        }
-                        helperText={
-                          formikProps.errors.email && formikProps.touched.email
-                            ? formikProps.errors.email
-                            : ""
-                        }
-                      />
+              <FormikForm>
+                <Modal.Body>
+                  <Box
+                    sx={{
+                      "& > :not(style)": {
+                        marginTop: "1.5rem",
+                      },
+                    }}
+                  >
+                    <TextField
+                      className={style.MuiFormControl_root}
+                      fullWidth
+                      label={t("Email address")}
+                      type="email"
+                      name="email"
+                      onChange={handleChange(formikProps)} // Pass formikProps to handleChange
+                      value={formikProps.values.email}
+                      placeholder={t("Enter email")}
+                      error={
+                        !!formikProps.errors.email && formikProps.touched.email
+                      }
+                      helperText={
+                        formikProps.errors.email && formikProps.touched.email
+                          ? formikProps.errors.email
+                          : ""
+                      }
+                    />
 
-                      <TextField
-                        fullWidth
-                        label={t("Password")}
-                        type="password"
-                        name="password"
-                        onChange={handleChange(formikProps)} // Pass formikProps to handleChange
-                        value={formikProps.values.password}
-                        placeholder={t("Enter Password")}
-                        error={
-                          !!formikProps.errors.password &&
-                          formikProps.touched.password
-                        }
-                        helperText={
-                          formikProps.errors.password &&
-                          formikProps.touched.password
-                            ? formikProps.errors.password
-                            : ""
-                        }
-                      />
-                      <p>
-                        Don't have an account?{" "}
-                        <Button variant="link" onClick={handleSignUpClick}>
-                          Sign Up
-                        </Button>
-                      </p>
-                    </Box>
-                  </Modal.Body>
-                  <Modal.Footer className="d-flex justify-content-center">
-                    <Button variant="primary" type="submit">
-                      {t("Sign In")}
-                    </Button>
-                    <Button variant="secondary" onClick={onHide}>
-                      Close
-                    </Button>
-                  </Modal.Footer>
-                </FormikForm>
-              </>
+                    <TextField
+                      className={style.MuiFormControl_root}
+                      fullWidth
+                      label={t("Password")}
+                      type="password"
+                      name="password"
+                      onChange={handleChange(formikProps)} // Pass formikProps to handleChange
+                      value={formikProps.values.password}
+                      placeholder={t("Enter Password")}
+                      error={
+                        !!formikProps.errors.password &&
+                        formikProps.touched.password
+                      }
+                      helperText={
+                        formikProps.errors.password &&
+                        formikProps.touched.password
+                          ? formikProps.errors.password
+                          : ""
+                      }
+                    />
+                    <p>
+                      Don't have an account?
+                      <Button variant="link" onClick={handleSignUpClick}>
+                        Sign Up
+                      </Button>
+                    </p>
+                  </Box>
+                </Modal.Body>
+                <Modal.Footer className="d-flex justify-content-center">
+                  <Button
+                    variant="primary"
+                    className={style.btn_primary}
+                    type="submit"
+                  >
+                    {t("Sign In")}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    className={style.btn_secondary}
+                    onClick={onHide}
+                  >
+                    Close
+                  </Button>
+                </Modal.Footer>
+              </FormikForm>
             )}
           </Formik>
         </Grid>

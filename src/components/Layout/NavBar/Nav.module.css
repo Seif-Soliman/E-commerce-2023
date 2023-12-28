@@ -2,6 +2,12 @@
   background: linear-gradient(to right, #ff8a00, #e52e71);
 }
 
+.navbar {
+  box-sizing: content-box;
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+
 .navbar_brand {
   padding: 0.5rem 1rem;
   font-family: "Segoe UI", sans-serif;
@@ -9,7 +15,7 @@
 }
 
 .nav_link {
-  padding: 0.25rem 0.5rem;
+  padding: 1rem 1rem;
   font-family: "Segoe UI", sans-serif;
   font-weight: 500;
   color: white;

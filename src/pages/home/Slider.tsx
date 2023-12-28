@@ -1,46 +1,34 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, A11y, Autoplay } from "swiper/modules";
+
+import style from "./style.module.css";
+import { SwiperNavButtons } from "./SwiperNavButtons";
+
 import "swiper/css";
-import { ProductType } from "../../store/product/productTypes";
-import {
-  Autoplay,
-  Navigation,
-  Pagination,
-  Scrollbar,
-  EffectFlip,
-} from "swiper/modules";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import "swiper/css/bundle";
-import "swiper/css/effect-flip";
-import "swiper/css/effect-fade";
-import style from "./slider.module.css";
 import { useEffect } from "react";
 import i18n from "../../locales/i18n";
 
-type SliderProps = {
-  slides: ProductType[];
-};
-
-export const Slider = ({ slides }: SliderProps) => {
-  const everyFourthSlide = slides.filter((_slide, index) => index % 4 === 0);
-
+const Slider = () => {
   useEffect(() => {
     const currentLanguage = i18n.language;
     document.body.dir = currentLanguage === "sa" ? "rtl" : "ltr";
+
+    const swiperElement = document.querySelector(".swiper_container");
+    if (swiperElement) {
+      swiperElement.classList.add(
+        currentLanguage === "sa" ? "swiper_rtl" : "swiper_ltr"
+      );
+    }
   }, []);
 
   return (
-    <div>
+    <div className={`${style.page} ${style.swiper_container}`}>
       <Swiper
-        // effect={"flip"}
-        effect="fade"
-        modules={[Autoplay, Navigation, Pagination, Scrollbar, EffectFlip]}
-        grabCursor={true}
-        slidesPerView={3}
-        fadeEffect={{ crossFade: true }}
-        navigation
-        autoplay={{ delay: 2000, disableOnInteraction: false }}
+        className={`${style.swiper_slide} ${style.swiper_wrapper}  ${style.swiper_container}`}
+        modules={[Navigation, Pagination, A11y, Autoplay]}
+        slidesPerView={1}
+        autoplay={{ delay: 1500, disableOnInteraction: false }}
         loop={true}
         spaceBetween={0}
         pagination={{ clickable: true, dynamicBullets: true }}
@@ -50,50 +38,34 @@ export const Slider = ({ slides }: SliderProps) => {
             slidesPerView: 1,
           },
           480: {
-            slidesPerView: 2,
+            slidesPerView: 1,
           },
           768: {
-            slidesPerView: 3,
+            slidesPerView: 1,
           },
           1024: {
-            slidesPerView: 4,
+            slidesPerView: 1,
           },
           1200: {
-            slidesPerView: 5,
+            slidesPerView: 1,
           },
         }}
-        className={`${style.swiper_container} ${style.full_width}`}
       >
-        {everyFourthSlide.map((slide: ProductType) => (
-          <SwiperSlide key={slide.id}>
-            <div className={`${style.slide} ${style.slideContent}`}>
-              <img
-                src={slide.img}
-                alt={slide.title}
-                className={style.slideImage}
-              />
-            </div>
-          </SwiperSlide>
-        ))}
-        {/* <SwiperSlide className={style.slide}>
-          <img src="src\assets\slider1.jpg" className={style.slideImage} />
+        <SwiperSlide>
+          <img src="src\assets\swiper1.jpg" className={style.slideImage} />
         </SwiperSlide>
-        <SwiperSlide className={style.slide}>
-          <img src="src\assets\slider2.jpg" className={style.slideImage} />
+        <SwiperSlide>
+          <img src="src\assets\swiper2.jpg" className={style.slideImage} />
         </SwiperSlide>
-        <SwiperSlide className={style.slide}>
-          <img src="src\assets\slider3.jpg" className={style.slideImage} />
+        <SwiperSlide>
+          <img src="src\assets\swiper3.jpg" className={style.slideImage} />
         </SwiperSlide>
-        <SwiperSlide className={style.slide}>
-          <img src="src\assets\slider4.jpg" className={style.slideImage} />
+        <SwiperSlide>
+          <img src="src\assets\swiper4.jpg" className={style.slideImage} />
         </SwiperSlide>
-        <SwiperSlide className={style.slide}>
-          <img src="src\assets\slider5.jpg" className={style.slideImage} />
-        </SwiperSlide>
-        <SwiperSlide className={style.slide}>
-          <img src="src\assets\slider6.jpg" className={style.slideImage} />
-        </SwiperSlide> */}
+        <SwiperNavButtons />
       </Swiper>
     </div>
   );
 };
+export default Slider;

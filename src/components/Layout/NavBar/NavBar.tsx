@@ -52,7 +52,7 @@ function NavBar() {
     <Navbar
       collapseOnSelect
       expand="lg"
-      className={style.gradient_bg}
+      className={`${style.gradient_bg} ${style.navbar}`}
       variant="dark"
       sticky="top"
     >
