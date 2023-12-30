@@ -114,8 +114,8 @@ function SignInModal({
           Sign In
         </Modal.Title>
       </Modal.Header>
-      <Grid container justifyContent="center" className={style.MuiGridControl}>
-        <Grid item xs={12} md={6}>
+      <Grid container justifyContent="center">
+        <Grid item xs={12} md={8} lg={6}>
           <Formik
             initialValues={{
               email: "",
@@ -138,7 +138,7 @@ function SignInModal({
                     }}
                   >
                     <TextField
-                      className={style.MuiFormControl_root}
+                      className={`${style.MuiFormControl_root} ${style.responsiveTextField}`}
                       fullWidth
                       label={t("Email address")}
                       type="email"
@@ -157,7 +157,7 @@ function SignInModal({
                     />
 
                     <TextField
-                      className={style.MuiFormControl_root}
+                      className={`${style.MuiFormControl_root} ${style.responsiveTextField}`}
                       fullWidth
                       label={t("Password")}
                       type="password"

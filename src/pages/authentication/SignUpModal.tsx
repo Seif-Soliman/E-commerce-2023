@@ -85,7 +85,7 @@ function SignUpModal({ show, onHide }: Readonly<SignUpModalProps>) {
           Sign Up
         </Modal.Title>
       </Modal.Header>
-      <Grid container justifyContent="center" className={style.MuiGridControl}>
+      <Grid container justifyContent="center">
         <Grid item xs={12} md={6}>
           <Formik
             initialValues={{

@@ -3,13 +3,9 @@
   color: #333;
 }
 
-.MuiGridControl {
-  display: block !important;
-  width: 200% !important;
-}
-
 .MuiFormControl_root {
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .MuiFormHelperText_root {

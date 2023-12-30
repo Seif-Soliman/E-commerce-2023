@@ -31,8 +31,8 @@ const OrderHistory = () => {
 
   return (
     <Row>
-      <Col md="12">
-        <Card className="mb-4 mb-md-0">
+      <Col xs={12}>
+        <Card className={`mb-4 mb-md-0 ${style.responsiveCard}`}>
           <Card.Body>
             <h5>{t("Order History")}</h5>
             <Accordion className={style.custom_accordion}>
