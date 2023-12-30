@@ -37,7 +37,7 @@ function SignUpModal({ show, onHide }: Readonly<SignUpModalProps>) {
     values: FormValues,
     actions: FormikHelpers<FormValues>
   ) => {
-    actions.setSubmitting(true); // Set submitting to true before the async operation
+    actions.setSubmitting(true);
 
     dispatch(signUp(values))
       .then(() => {
@@ -46,7 +46,6 @@ function SignUpModal({ show, onHide }: Readonly<SignUpModalProps>) {
       })
       .catch((error) => {
         console.error(error);
-        // Handle error if needed
       })
       .finally(() => {
         actions.setSubmitting(false);
@@ -58,7 +57,7 @@ function SignUpModal({ show, onHide }: Readonly<SignUpModalProps>) {
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
       console.log(`Field ${name} has a new value: ${value}`);
-      formikProps.handleChange(e); // Use Formik's handleChange
+      formikProps.handleChange(e);
     };
 
   useEffect(() => {
@@ -116,7 +115,7 @@ function SignUpModal({ show, onHide }: Readonly<SignUpModalProps>) {
                       type="email"
                       name="email"
                       placeholder={t("Enter email")}
-                      onChange={handleChange(formikProps)} // Pass formikProps to handleChange
+                      onChange={handleChange(formikProps)}
                       value={formikProps.values.email}
                       error={
                         !!formikProps.errors.email && formikProps.touched.email
@@ -135,7 +134,7 @@ function SignUpModal({ show, onHide }: Readonly<SignUpModalProps>) {
                       type="password"
                       name="password"
                       placeholder={t("Enter Password")}
-                      onChange={handleChange(formikProps)} // Pass formikProps to handleChange
+                      onChange={handleChange(formikProps)}
                       value={formikProps.values.password}
                       error={
                         !!formikProps.errors.password &&
@@ -156,7 +155,7 @@ function SignUpModal({ show, onHide }: Readonly<SignUpModalProps>) {
                       type="text"
                       name="userName"
                       placeholder={t("Enter name")}
-                      onChange={handleChange(formikProps)} // Pass formikProps to handleChange
+                      onChange={handleChange(formikProps)}
                       value={formikProps.values.userName}
                       error={
                         !!formikProps.errors.userName &&
@@ -177,7 +176,7 @@ function SignUpModal({ show, onHide }: Readonly<SignUpModalProps>) {
                       type="text"
                       name="mobile"
                       placeholder={t("Enter mobile")}
-                      onChange={handleChange(formikProps)} // Pass formikProps to handleChange
+                      onChange={handleChange(formikProps)}
                       value={formikProps.values.mobile}
                       error={
                         !!formikProps.errors.mobile &&

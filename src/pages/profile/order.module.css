@@ -1,0 +1,46 @@
+.custom_accordion {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.accordion_header {
+  background-color: #f7f7f7;
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+}
+
+.accordion_body {
+  padding: 10px;
+}
+
+.custom_card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.product_info {
+  display: flex;
+  align-items: center;
+}
+
+.product_image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.product_details {
+  flex-grow: 1;
+}
+
+.product_text {
+  font-size: 14px;
+}
+
+.product_info_label {
+  font-weight: bold;
+  margin-right: 5px;
+}

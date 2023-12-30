@@ -1,9 +1,4 @@
-import {
-  AnyAction,
-  // Dispatch,
-  ThunkDispatch,
-  createAsyncThunk,
-} from "@reduxjs/toolkit";
+import { AnyAction, ThunkDispatch, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { User } from "./userT";
 import { updateEmail } from "./authSlice";

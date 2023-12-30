@@ -1,5 +1,5 @@
 import { Modal, Button } from "react-bootstrap";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useAppDispatch } from "../../store/hooks";
 import { signIn } from "../../store/authenticate/thunks";
 import i18n from "../../locales/i18n";
@@ -8,6 +8,7 @@ import { Formik, Form as FormikForm, FormikHelpers, FormikProps } from "formik";
 import * as Yup from "yup";
 import { TextField, Box, Grid } from "@mui/material";
 import style from "./style.module.css";
+import axios from "axios";
 
 interface SignInModalProps {
   show: boolean;
@@ -22,8 +23,35 @@ function SignInModal({
   showSignUp,
   closeOtherModal,
 }: Readonly<SignInModalProps>) {
+  const [registeredEmails, setRegisteredEmails] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchRegisteredEmails = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/users");
+        console.log(response);
+        const emails = response.data.map((user: { email: string }) =>
+          user.email.trim()
+        );
+        console.log(emails);
+        setRegisteredEmails(emails);
+      } catch (error) {
+        console.error("Error fetching registered emails:", error);
+      }
+    };
+
+    fetchRegisteredEmails();
+  }, []);
+
   const SigninSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Email is required"),
+    email: Yup.string()
+      .email("Invalid email")
+      .required("Email is required")
+      .test("is-registered", "Email is not registered", function (value) {
+        console.log("Input Email:", value);
+        console.log("Registered Emails:", registeredEmails);
+        return registeredEmails.includes(value);
+      }),
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
@@ -53,7 +81,7 @@ function SignInModal({
   const handleChange =
     (formikProps: FormikProps<FormValues>) =>
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      formikProps.handleChange(e); // Use Formik's handleChange
+      formikProps.handleChange(e);
     };
 
   useEffect(() => {
@@ -99,9 +127,7 @@ function SignInModal({
             }
             validateOnChange={true}
           >
-            {(
-              formikProps // Destructure formikProps to access values, errors, touched
-            ) => (
+            {(formikProps) => (
               <FormikForm>
                 <Modal.Body>
                   <Box
@@ -117,7 +143,7 @@ function SignInModal({
                       label={t("Email address")}
                       type="email"
                       name="email"
-                      onChange={handleChange(formikProps)} // Pass formikProps to handleChange
+                      onChange={handleChange(formikProps)}
                       value={formikProps.values.email}
                       placeholder={t("Enter email")}
                       error={
@@ -136,7 +162,7 @@ function SignInModal({
                       label={t("Password")}
                       type="password"
                       name="password"
-                      onChange={handleChange(formikProps)} // Pass formikProps to handleChange
+                      onChange={handleChange(formikProps)}
                       value={formikProps.values.password}
                       placeholder={t("Enter Password")}
                       error={

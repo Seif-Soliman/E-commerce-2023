@@ -29,47 +29,75 @@ const Footer = () => {
     <footer className="bg-light text-center text-lg-start text-muted mt-auto">
       <section
         className={`${style.section_style} d-flex justify-content-center justify-content-lg-between p-2 border-bottom`}
-      >
-        <div className="me-5 d-none d-lg-block">
-          <span>
-            <h5>{t("Get connected with us on social networks")}</h5>
-          </span>
-        </div>
-
-        <div>
-          <Button href="/" variant="outline-light" className="me-4 text-reset">
-            <FaFacebookF />
-          </Button>
-          <Button href="/" variant="outline-light" className="me-4 text-reset">
-            <FaTwitter />
-          </Button>
-          <Button href="/" variant="outline-light" className="me-4 text-reset">
-            <FaGoogle />
-          </Button>
-          <Button href="/" variant="outline-light" className="me-4 text-reset">
-            <FaInstagram />
-          </Button>
-          <Button href="/" variant="outline-light" className="me-4 text-reset">
-            <FaLinkedin />
-          </Button>
-          <Button href="/" variant="outline-light" className="me-4 text-reset">
-            <FaGithub />
-          </Button>
-        </div>
-      </section>
+      ></section>
 
       <section>
         <Container className="text-center text-md-start mt-5">
           <Row className="mt-3">
-            <Col md="3" lg="4" xl="3" className="mb-4">
+            <Col
+              md="6"
+              className="mb-4 d-flex flex-column justify-content-start"
+            >
               <h6 className="text-uppercase fw-bold mb-4">
                 <FaGem className="me-3" color="secondary" />
                 Seif Store
               </h6>
-              <p>
+              <p className={style.footer_text}>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem
                 ipsum dolor sit amet, consectetur adipisicing elit.
               </p>
+            </Col>
+            <Col
+              md="6"
+              className="mb-4 d-flex flex-column justify-content-start align-items-end"
+            >
+              <span>
+                <h5>{t("Get connected with us on social networks")}</h5>
+              </span>
+              <div className="d-flex flex-row">
+                <Button
+                  href="/"
+                  variant="outline-light"
+                  className="mb-2 text-reset"
+                >
+                  <FaFacebookF />
+                </Button>
+                <Button
+                  href="/"
+                  variant="outline-light"
+                  className="mb-2 text-reset"
+                >
+                  <FaTwitter />
+                </Button>
+                <Button
+                  href="/"
+                  variant="outline-light"
+                  className="mb-2 text-reset"
+                >
+                  <FaGoogle />
+                </Button>
+                <Button
+                  href="/"
+                  variant="outline-light"
+                  className="mb-2 text-reset"
+                >
+                  <FaInstagram />
+                </Button>
+                <Button
+                  href="/"
+                  variant="outline-light"
+                  className="mb-2 text-reset"
+                >
+                  <FaLinkedin />
+                </Button>
+                <Button
+                  href="/"
+                  variant="outline-light"
+                  className="mb-2 text-reset"
+                >
+                  <FaGithub />
+                </Button>
+              </div>
             </Col>
           </Row>
         </Container>

@@ -9,3 +9,7 @@ a.button::before svg {
 a.button:hover svg {
   color: black;
 }
+
+.footer_text {
+  text-align: left;
+}

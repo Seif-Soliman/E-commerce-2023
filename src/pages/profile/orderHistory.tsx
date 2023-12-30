@@ -4,10 +4,10 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import i18n from "../../locales/i18n";
 import { useTranslation } from "react-i18next";
 import { fetchOrdersByUserId } from "../../store/order/thunk";
+import style from "./order.module.css";
 
 const OrderHistory = () => {
   const dispatch = useAppDispatch();
-
   const orders = useAppSelector((state) => state.order.orders);
 
   useEffect(() => {
@@ -35,73 +35,48 @@ const OrderHistory = () => {
         <Card className="mb-4 mb-md-0">
           <Card.Body>
             <h5>{t("Order History")}</h5>
-            <Accordion className="rounded-3">
+            <Accordion className={style.custom_accordion}>
               {orders.map((order, index) => (
                 <Accordion.Item key={index} eventKey={`${index}`}>
-                  <Accordion.Header>
+                  <Accordion.Header className={style.accordion_header}>
                     {t("Order ID: ")}
                     {`${order.id}`}
                   </Accordion.Header>
-                  <Accordion.Body>
-                    {Array.isArray(order.orders) ? (
+                  <Accordion.Body className={style.accordion_body}>
+                    {Array.isArray(order.orders) &&
                       order.orders.map((item, idx) => (
-                        <Card key={idx}>
-                          <Card.Body>
-                            <Card.Img src={item.img} />
-                            <Card.Text>
-                              {t("Quantity")}: {item.quantity}, {t("Product")}:
-                              {item.product?.title}, {t("Price")}: $
-                              {item.product?.price}
-                            </Card.Text>
+                        <Card key={idx} className={`${style.custom_card} mb-3`}>
+                          <Card.Body className="card-body">
+                            <div className={style.product_info}>
+                              <Card.Img
+                                src={item.product?.img}
+                                alt="Product Image"
+                                className={style.product_image}
+                              />
+                              <div className={style.product_details}>
+                                <Card.Text className={style.product_text}>
+                                  <span className={style.product_info_label}>
+                                    {t("Quantity")}:
+                                  </span>
+                                  {item.quantity},
+                                  <span className={style.product_info_label}>
+                                    {t("Product")}:
+                                  </span>
+                                  {item.product?.title},
+                                  <span className={style.product_info_label}>
+                                    {t("Price")}:
+                                  </span>
+                                  ${item.product?.price}
+                                </Card.Text>
+                              </div>
+                            </div>
                           </Card.Body>
                         </Card>
-                      ))
-                    ) : (
-                      <Card>
-                        <Card.Body>
-                          <Card.Img src={order.orders?.product?.img} />
-                          <Card.Text>
-                            {t("Quantity")}: {order.orders?.quantity},{" "}
-                            {t("Product")}:{order.orders?.product?.title},{" "}
-                            {t("Price")}: ${order.orders?.product?.price}
-                          </Card.Text>
-                        </Card.Body>
-                      </Card>
-                    )}
+                      ))}
                   </Accordion.Body>
                 </Accordion.Item>
               ))}
             </Accordion>
-            {/* <ListGroup className="rounded-3">
-              {orders.map((order) => (
-                <ListGroup.Item key={order.id}>
-                  Order ID: {order.id},
-                  {Array.isArray(order.orders) ? (
-                    order.orders.map((item, index) => (
-                      <div key={index}>
-                        <img src={item.img} />
-                        <p>Quantity: {item.quantity},</p>
-                        <p>
-                          Product:
-                          {item.product?.title}
-                        </p>
-                        <p>Price: ${item.product?.price}</p>
-                      </div>
-                    ))
-                  ) : (
-                    <div>
-                      <img src={order.orders?.product?.img} />
-                      <p>Quantity: {order.orders?.quantity},</p>
-                      <p>
-                        Product:
-                        {order.orders?.product?.title},
-                      </p>
-                      <p>Price: ${order.orders?.product?.price}</p>
-                    </div>
-                  )}
-                </ListGroup.Item>
-              ))}
-            </ListGroup> */}
           </Card.Body>
         </Card>
       </Col>

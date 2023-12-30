@@ -6,25 +6,20 @@ import { SwiperNavButtons } from "./SwiperNavButtons";
 
 import "swiper/css";
 import "swiper/css/pagination";
-import { useEffect } from "react";
 import i18n from "../../locales/i18n";
 
 const Slider = () => {
-  useEffect(() => {
-    const currentLanguage = i18n.language;
-    document.body.dir = currentLanguage === "sa" ? "rtl" : "ltr";
-
-    const swiperElement = document.querySelector(".swiper_container");
-    if (swiperElement) {
-      swiperElement.classList.add(
-        currentLanguage === "sa" ? "swiper_rtl" : "swiper_ltr"
-      );
-    }
-  }, []);
+  const currentLanguage = i18n.language;
+  const dir = currentLanguage === "sa" ? "rtl" : "ltr";
 
   return (
-    <div className={`${style.page} ${style.swiper_container}`}>
+    <div
+      style={{ direction: "ltr" }}
+      className={`${style.page} ${style.swiper_container}`}
+    >
       <Swiper
+        dir={dir}
+        key={dir}
         className={`${style.swiper_slide} ${style.swiper_wrapper}  ${style.swiper_container}`}
         modules={[Navigation, Pagination, A11y, Autoplay]}
         slidesPerView={1}
