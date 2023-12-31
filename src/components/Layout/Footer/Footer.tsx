@@ -26,7 +26,7 @@ const Footer = () => {
   const { t } = useTranslation();
 
   return (
-    <footer className="bg-light text-center text-lg-start text-muted mt-auto">
+    <footer className="bg-light text-center text-lg-start text-muted mt-auto mb-0">
       <section
         className={`${style.section_style} d-flex justify-content-center justify-content-lg-between p-2 border-bottom`}
       ></section>

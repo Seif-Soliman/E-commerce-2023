@@ -118,7 +118,7 @@ export function Cart() {
                     value={quantity}
                     onChange={(e) => onQuantityChanged(e, productId)} // Convert the ID back to string for compatibility
                   >
-                    {[...Array(product?.max_quantity || 0)].map((_, i) => (
+                    {[...Array(product?.max_quantity ?? 0)].map((_, i) => (
                       <option key={i} value={i + 1}>
                         {i + 1}
                       </option>
@@ -132,7 +132,7 @@ export function Cart() {
                     onClick={() =>
                       handleClickQuanatityRemove(
                         productId.toString(),
-                        product?.max_quantity || 0
+                        product?.max_quantity ?? 0
                       )
                     }
                   >
