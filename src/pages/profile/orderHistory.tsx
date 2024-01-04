@@ -49,8 +49,14 @@ const OrderHistory = () => {
             <Accordion className={style.custom_accordion}>
               {orders.map((order, index) => (
                 <Accordion.Item key={index} eventKey={`${index}`}>
-                  <Accordion.Header className={style.accordion_header}>
-                    {t("Order Number ")}:{`${order.id}`}
+                  <Accordion.Header
+                    className={`${style.accordion_header} ${
+                      i18n.language === "sa"
+                        ? style.rtlAccordionHeader
+                        : style.accordion_header
+                    }`}
+                  >
+                    {t("Order Number")}: {`${order.id}`}
                   </Accordion.Header>
                   <Accordion.Body className={style.accordion_body}>
                     {Array.isArray(order.orders) &&

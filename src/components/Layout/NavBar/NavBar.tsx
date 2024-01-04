@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { CartLink } from "../../../pages/cart/CartLink";
 import { useAppSelector } from "../../../store/hooks";
 import LanguageSwitch from "../../../locales/languageSwitch";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import i18n from "../../../locales/i18n";
 import { useTranslation } from "react-i18next";
 import { Button } from "react-bootstrap";
@@ -15,11 +15,7 @@ import SignUpModal from "../../../pages/authentication/SignUpModal";
 import Signout from "../../../pages/authentication/Signout";
 import style from "./Nav.module.css";
 
-interface AuthenticatedComponentProps {
-  children: ReactNode;
-}
-
-function NavBar({ children }: AuthenticatedComponentProps) {
+function NavBar() {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
 
@@ -97,7 +93,6 @@ function NavBar({ children }: AuthenticatedComponentProps) {
         closeOtherModal={closeSignInModal}
       />
       <SignUpModal show={showSignUp} onHide={() => setShowSignUp(false)} />
-      {children}
     </Navbar>
   );
 }

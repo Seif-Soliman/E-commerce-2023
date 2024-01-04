@@ -29,11 +29,11 @@ function SignInModal({
     const fetchRegisteredEmails = async () => {
       try {
         const response = await axios.get("http://localhost:3000/users");
-        console.log(response);
+        // console.log(response);
         const emails = response.data.map((user: { email: string }) =>
           user.email.trim()
         );
-        console.log(emails);
+        // console.log(emails);
         setRegisteredEmails(emails);
       } catch (error) {
         console.error("Error fetching registered emails:", error);
@@ -48,8 +48,8 @@ function SignInModal({
       .email("Invalid email")
       .required("Email is required")
       .test("is-registered", "Email is not registered", function (value) {
-        console.log("Input Email:", value);
-        console.log("Registered Emails:", registeredEmails);
+        // console.log("Input Email:", value);
+        // console.log("Registered Emails:", registeredEmails);
         return registeredEmails.includes(value);
       }),
     password: Yup.string()
@@ -69,7 +69,7 @@ function SignInModal({
     { resetForm }: FormikHelpers<FormValues>,
     onHide: () => void
   ) => {
-    console.log("Form Values:", values);
+    // console.log("Form Values:", values);
     dispatch(signIn(values))
       .then(() => {
         resetForm();

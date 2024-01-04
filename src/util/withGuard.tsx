@@ -1,13 +1,9 @@
-import { useEffect, ComponentType, ReactElement } from "react";
+import { useEffect, ComponentType } from "react";
 import { useAppSelector } from "../store/hooks";
 import { useNavigate } from "react-router";
 
-interface WithGuardProps {}
-
-const withGuard = (
-  WrappedComponent: ComponentType
-): ComponentType<WithGuardProps> => {
-  const WithGuardWrapper = (): ReactElement | null => {
+const withGuard = (WrappedComponent: ComponentType) => {
+  const WithGuardWrapper = () => {
     const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
     const navigate = useNavigate();
 
@@ -16,7 +12,7 @@ const withGuard = (
         navigate("/");
       }
     }, [isLoggedIn, navigate]);
-    console.log("withGuard");
+    // console.log("withGuard");
 
     return isLoggedIn ? <WrappedComponent /> : null;
   };
