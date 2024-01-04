@@ -89,7 +89,7 @@ export function Cart() {
 
   return (
     <main className="page">
-      <h1>{t("Shopping Cart")}</h1>
+      <h1 className="mt-5 mb-5">{t("Shopping Cart")}</h1>
       <Table
         bordered
         responsive
@@ -152,7 +152,7 @@ export function Cart() {
           </tr>
         </tfoot>
       </Table>
-      <Form onSubmit={onCheckout} className="mt-4">
+      <Form onSubmit={onCheckout} className="mt-5 mb-1">
         {checkoutState === "Error" && errorMsg ? (
           <Alert variant="danger" className={styles.errorBox}>
             {errorMsg}

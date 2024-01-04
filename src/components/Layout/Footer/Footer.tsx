@@ -5,7 +5,6 @@ import {
   FaGoogle,
   FaInstagram,
   FaLinkedin,
-  FaGithub,
   FaGem,
 } from "react-icons/fa";
 import style from "./Footer.module.css";
@@ -89,13 +88,6 @@ const Footer = () => {
                   className="mb-2 text-reset"
                 >
                   <FaLinkedin />
-                </Button>
-                <Button
-                  href="/"
-                  variant="outline-light"
-                  className="mb-2 text-reset"
-                >
-                  <FaGithub />
                 </Button>
               </div>
             </Col>

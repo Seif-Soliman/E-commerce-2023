@@ -111,7 +111,7 @@ function SignInModal({
         <Modal.Title
           className={`${style.modal_title} d-flex justify-content-center`}
         >
-          Sign In
+          {t("Sign In")}
         </Modal.Title>
       </Modal.Header>
       <Grid container justifyContent="center">
@@ -177,9 +177,9 @@ function SignInModal({
                       }
                     />
                     <p>
-                      Don't have an account?
+                      {t("Don't have an account?")}
                       <Button variant="link" onClick={handleSignUpClick}>
-                        Sign Up
+                        {t("Sign Up")}
                       </Button>
                     </p>
                   </Box>
@@ -197,7 +197,7 @@ function SignInModal({
                     className={style.btn_secondary}
                     onClick={onHide}
                   >
-                    Close
+                    {t("Close")}
                   </Button>
                 </Modal.Footer>
               </FormikForm>

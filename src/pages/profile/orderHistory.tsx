@@ -29,6 +29,17 @@ const OrderHistory = () => {
     dispatch(fetchOrdersByUserId(userId));
   }, [dispatch, userId]);
 
+  const calculatedTotal = (item: {
+    product: { price: number };
+    quantity: number;
+  }) => {
+    return item.product?.price * item.quantity;
+  };
+
+  const transltedName = (item: { product: { title: string } }) => {
+    return t(`ProductName_${item.product?.title}`);
+  };
+
   return (
     <Row>
       <Col xs={12}>
@@ -39,8 +50,7 @@ const OrderHistory = () => {
               {orders.map((order, index) => (
                 <Accordion.Item key={index} eventKey={`${index}`}>
                   <Accordion.Header className={style.accordion_header}>
-                    {t("Order ID: ")}
-                    {`${order.id}`}
+                    {t("Order Number ")}:{`${order.id}`}
                   </Accordion.Header>
                   <Accordion.Body className={style.accordion_body}>
                     {Array.isArray(order.orders) &&
@@ -62,11 +72,15 @@ const OrderHistory = () => {
                                   <span className={style.product_info_label}>
                                     {t("Product")}:
                                   </span>
-                                  {item.product?.title},
+                                  {transltedName(item)},
                                   <span className={style.product_info_label}>
                                     {t("Price")}:
                                   </span>
                                   ${item.product?.price}
+                                  <span className={style.product_info_label}>
+                                    {t("Total")}:
+                                  </span>
+                                  ${calculatedTotal(item)}
                                 </Card.Text>
                               </div>
                             </div>

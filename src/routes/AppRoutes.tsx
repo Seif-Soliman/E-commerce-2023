@@ -8,9 +8,12 @@ import ErrorPage from "../pages/errorPage/ErrorPage";
 import App from "../App";
 import Signup from "../pages/authentication/Signup";
 import Signin from "../pages/authentication/Signin";
-import Profile from "../pages/profile/Profile";
 import UserInfo from "../pages/profile/userInfo";
 import OrderHistory from "../pages/profile/orderHistory";
+import Profile from "../pages/profile/Profile";
+import withGuard from "../util/withGuard";
+
+const ProfileWithGuard = withGuard(Profile);
 
 const router = createBrowserRouter([
   {
@@ -29,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <Profile />, //Profile page
+        element: <ProfileWithGuard />, //Profile page
         children: [
           { index: true, element: <UserInfo /> },
           {

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { CartLink } from "../../../pages/cart/CartLink";
 import { useAppSelector } from "../../../store/hooks";
 import LanguageSwitch from "../../../locales/languageSwitch";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import i18n from "../../../locales/i18n";
 import { useTranslation } from "react-i18next";
 import { Button } from "react-bootstrap";
@@ -15,7 +15,11 @@ import SignUpModal from "../../../pages/authentication/SignUpModal";
 import Signout from "../../../pages/authentication/Signout";
 import style from "./Nav.module.css";
 
-function NavBar() {
+interface AuthenticatedComponentProps {
+  children: ReactNode;
+}
+
+function NavBar({ children }: AuthenticatedComponentProps) {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
 
@@ -23,10 +27,14 @@ function NavBar() {
   const handleShowSignUp = () => setShowSignUp(true);
   const closeSignInModal = () => setShowSignIn(false);
 
-  const name = useAppSelector((state) => state.auth.currentUser?.user);
   const loggedIn = useAppSelector((state) => state.auth.isLoggedIn);
-  const userName = loggedIn ? name.userName : null;
-  const greetingMessage = userName ? `Hello, ${userName}` : "Please Sign in";
+
+  useEffect(() => {
+    const currentLanguage = i18n.language;
+    document.body.dir = currentLanguage === "sa" ? "rtl" : "ltr";
+  }, []);
+
+  const { t } = useTranslation();
 
   const renderAuthLinks = () => {
     if (loggedIn) {
@@ -35,18 +43,11 @@ function NavBar() {
       return (
         <Button variant="outline-light" onClick={handleShowSignIn}>
           <FaSignInAlt className="me-2" />
-          Sign In
+          {t("Sign In")}
         </Button>
       );
     }
   };
-
-  useEffect(() => {
-    const currentLanguage = i18n.language;
-    document.body.dir = currentLanguage === "sa" ? "rtl" : "ltr";
-  }, []);
-
-  const { t } = useTranslation();
 
   return (
     <Navbar
@@ -62,20 +63,25 @@ function NavBar() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
+          <Nav className={i18n.language === "sa" ? "ms-auto" : "me-auto"}>
             <Link to="/products" className={style.nav_link}>
               {t("Products")}
             </Link>
             <Link to="/categories" className={style.nav_link}>
               {t("Category")}
             </Link>
-            <Link to="/profile" className={style.nav_link}>
-              <FaUser className="me-1" />
-              {t("Profile")}
-            </Link>
+            {loggedIn ? (
+              <Link to="/profile" className={style.nav_link}>
+                <FaUser className="me-1" />
+                {t("Profile")}
+              </Link>
+            ) : null}
           </Nav>
-          <Nav className="ms-auto align-items-center">
-            <div className="text-white p-2">{greetingMessage}</div>
+          <Nav
+            className={`${
+              i18n.language === "sa" ? "me-auto" : "ms-auto"
+            } align-items-center`}
+          >
             <div className="p-2">{renderAuthLinks()}</div>
             <div className="p-2">
               <CartLink />
@@ -91,6 +97,7 @@ function NavBar() {
         closeOtherModal={closeSignInModal}
       />
       <SignUpModal show={showSignUp} onHide={() => setShowSignUp(false)} />
+      {children}
     </Navbar>
   );
 }

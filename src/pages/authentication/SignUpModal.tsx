@@ -82,7 +82,7 @@ function SignUpModal({ show, onHide }: Readonly<SignUpModalProps>) {
         <Modal.Title
           className={`${style.modal_title} d-flex justify-content-center`}
         >
-          Sign Up
+          {t("Sign Up")}
         </Modal.Title>
       </Modal.Header>
       <Grid container justifyContent="center">
@@ -203,7 +203,7 @@ function SignUpModal({ show, onHide }: Readonly<SignUpModalProps>) {
                     className={style.btn_secondary}
                     onClick={onHide}
                   >
-                    Close
+                    {t("Close")}
                   </Button>
                 </Modal.Footer>
               </Form>
