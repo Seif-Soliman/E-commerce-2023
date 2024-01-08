@@ -6,6 +6,8 @@ interface ProductState {
   errorMsg: string;
   quantity: { [id: string]: number };
   searchQuery: string;
+  currentPage: number;
+  itemsPerPage: number;
 }
 
 export const initialState: ProductState = {
@@ -14,4 +16,6 @@ export const initialState: ProductState = {
   errorMsg: "Failed to fetch products",
   quantity: {},
   searchQuery: "",
+  currentPage: 1,
+  itemsPerPage: 12,
 };
