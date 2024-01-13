@@ -21,7 +21,7 @@ const LanguageSwitch = () => {
   return (
     <Flags
       countries={["US", "SA"]}
-      customLabels={{ EN: "English", SA: "العربية" }}
+      customLabels={{ US: "English", SA: "العربية" }}
       onSelect={(code) => changeLanguage(code.toLowerCase())}
       selected={i18n.language.toUpperCase()}
       className="flag-select"

@@ -134,7 +134,7 @@ export function Products() {
               onClick={handlePrevPage}
               disabled={currentPage === 1}
             >
-              Prev
+              {t("Prev")}
             </Button>
             <Button
               variant="primary"
@@ -142,7 +142,7 @@ export function Products() {
               onClick={handleNextPage}
               disabled={indexOfLastItem >= filteredProducts.length}
             >
-              Next
+              {t("Next")}
             </Button>
           </div>
         </Row>
